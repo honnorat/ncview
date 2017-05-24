@@ -372,7 +372,7 @@ int netcdf_fi_n_dims( int fileid, char *var_name )
 }
 
 /*******************************************************************************************/
-size_t netcdf_dim_size( fileid, dimid )
+size_t netcdf_dim_size( int fileid, int dimid )
 {
 	size_t	ret_val;
 	int	err;

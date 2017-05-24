@@ -76,6 +76,7 @@ static void init_cmaps_from_data();
 static void init_cmap_from_data( char *colormap_name, int *data );
 static int get_cmaps_from_dir( char *dir_name );
 static int ncview_cmap_suffix( char *s, int *n_suffix );
+static int any_var_in_group( NCVar *var );
 
 /***********************************************************************************************/
 	int

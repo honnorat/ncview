@@ -140,6 +140,7 @@ int     is_scannable        ( NCVar *v, int i );
 void 	sl_cat		    ( Stringlist **dest, Stringlist **src );
 void 	get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data, 
 					float *min, float *max, int verbose );
+int 	unpack_groupname( char *varname, int ig, char *groupname );
 void 	cache_scalar_coord_info( NCVar *vars );
 int 	count_nslashes	    ( char *s );
 Stringlist *get_group_list  ( NCVar *vars );

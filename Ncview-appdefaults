@@ -53,8 +53,9 @@ Ncview*quit*label:	Quit
 Ncview*foreground:	azure
 Ncview*background:	SteelBlue
 Ncview*PlotXY_canvas*background: LightSteelBlue
+Ncview*PlotXY*font: 	-*-courier-*-r-*-*-34-*-*-*-*-*-*-*
 !
-Ncview*font:			-*-helvetica-*-r-*-*-14-*-*-*-*-*-*-*
+Ncview*font:			-*-lucida-bold-r-*-*-14-*-*-*-*-*-*-*
 Ncview*axisFont:			10
 !
 Ncview*ccontour*borderWidth: 	0

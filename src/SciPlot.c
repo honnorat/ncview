@@ -2197,7 +2197,7 @@ Boolean firstx,firsty;
 					w->plot.UserMin.y = 1.e-4 * w->plot.UserMax.y;
 				w->plot.Min.y=w->plot.UserMin.y;
 				w->plot.Max.y=w->plot.UserMax.y;
-printf( "sciplot: just set y range to %d %d\n", w->plot.Min.y, w->plot.Max.y ); 
+printf( "sciplot: just set y range to %lf %lf\n", w->plot.Min.y, w->plot.Max.y ); 
 				}
 			}
 		}

@@ -55,7 +55,13 @@ if test x$UDUNITS2_INCDIR = x; then
         AC_CHECK_HEADER( /usr/include/udunits2.h, UDUNITS2_INCDIR=/usr/include )
 fi
 if test x$UDUNITS2_INCDIR = x; then
+        AC_CHECK_HEADER( /usr/include/udunits2/udunits2.h, UDUNITS2_INCDIR=/usr/include/udunits2 )
+fi
+if test x$UDUNITS2_INCDIR = x; then
         AC_CHECK_HEADER( $HOME/include/udunits2.h, UDUNITS2_INCDIR=$HOME/include )
+fi
+if test x$UDUNITS2_INCDIR = x; then
+        AC_CHECK_HEADER( $HOME/include/udunits2/udunits2.h, UDUNITS2_INCDIR=$HOME/include/udunits2 )
 fi
 if test x$UDUNITS2_INCDIR = x; then
         AC_CHECK_HEADER( /sw/include/udunits2.h, UDUNITS2_INCDIR=/sw/include )

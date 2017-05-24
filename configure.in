@@ -150,7 +150,7 @@ else
 	echo "of udunits2 support.  If you DO use udunits2 format date strings, and"
 	echo "you want the udunits2 support, then you must tell me where to find"
 	echo "the udunits2 package by giving arguments to configure, as follows:"
-	echo "  ./configure -with-udunits2_incdir=include_directory -with-udunits2_libdir=library_directory"
+	echo "  ./configure --with-udunits2_incdir=include_directory --with-udunits2_libdir=library_directory"
 	echo "************************************************************************"
 	DO_UDUNITS2_LINE="#INC_UDUNITS2   = -DINC_UDUNITS2"
 	DO_UDUNITS2_INCDIR="#UDUNITS2INCDIR = -I$UDUNITS2_INCDIR"
