@@ -1,6 +1,11 @@
+*.o
 *.Po
+
 Makefile
 src/Makefile
+src/ncview
+src/geteuid
+
 config.log
 config.status
 stamp-h1
