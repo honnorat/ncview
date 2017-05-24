@@ -1314,6 +1314,7 @@ void netcdf_fill_aux_data( int id, char *var_name, FDBlist *fdb )
 	 * then assume they apply to the valid range also.  Q: is this
 	 * always true?  The netCDF specification doesn't really say. 
 	 */
+    /*
 	if( netcdf->add_offset_set && netcdf->scale_factor_set ) {
 		if( netcdf->valid_range_set ) {
 			netcdf->valid_range[0] = netcdf->valid_range[0] * netcdf->scale_factor
@@ -1363,6 +1364,7 @@ void netcdf_fill_aux_data( int id, char *var_name, FDBlist *fdb )
 				}
 			}
 		}
+    */
 }
 
 /*******************************************************************************************/
@@ -1373,11 +1375,16 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 	size_t	len;
 	nc_type	type;
 	char	*char_att;
+	char	*byte_att, byte_1;
 	short	*short_att, short_1;
 	double	*double_att, double_1;
 	long	*long_att, long_1;
+	unsigned char	*ubyte_att, ubyte_1;
+	unsigned short	*ushort_att, ushort_1;
+	int att_id;
 
-	if( netcdf_att_id( id, varid, att_name ) >= 0 ) {
+	att_id = netcdf_att_id( id, varid, att_name );
+	if( att_id >= 0 ) {
 		err = nc_inq_att( id, varid, att_name, &type, &len );
 		if( err != NC_NOERR )
 			return( FALSE );
@@ -1393,6 +1400,29 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 					break;
 
 				case NC_BYTE:
+					byte_att = (char *)malloc( len*sizeof(char) );
+					err = nc_get_att_schar( id, varid, att_name, byte_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						byte_1 = *(byte_att+i);
+						*((float *)value + i) = (float)byte_1;
+						}
+					free(byte_att);
+					break;
+
+				case NC_UBYTE:
+					ubyte_att = (unsigned char *)malloc( len*sizeof(unsigned char) );
+					err = nc_get_att_ubyte( id, varid, att_name, ubyte_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						ubyte_1 = *(ubyte_att+i);
+						*((float *)value + i) = (float)ubyte_1;
+						}
+					free(byte_att);
+					break;
+
 				case NC_SHORT:
 					short_att = (short *)malloc( len*sizeof(short) );
 					err = nc_get_att_short( id, varid, att_name, short_att );
@@ -1403,6 +1433,18 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 						*((float *)value + i) = (float)short_1;
 						}
 					free(short_att);
+					break;
+
+				case NC_USHORT:
+					ushort_att = (unsigned short *)malloc( len*sizeof(unsigned short) );
+					err = nc_get_att_ushort( id, varid, att_name, ushort_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						ushort_1 = *(ushort_att+i);
+						*((float *)value + i) = (float)ushort_1;
+						}
+					free(ushort_att);
 					break;
 
 				case NC_DOUBLE:
@@ -1721,9 +1763,13 @@ char *nc_type_to_string( nc_type type )
 		
 		case NC_BYTE:	return( "BYTE" );
 
+		case NC_UBYTE:	return( "UBYTE" );
+
 		case NC_CHAR:	return( "CHAR" );
 
 		case NC_SHORT:	return( "SHORT" );
+
+		case NC_USHORT:	return( "USHORT" );
 
 		case NC_LONG:	return( "LONG" );
 
