@@ -1,0 +1,6 @@
+*.Po
+Makefile
+src/Makefile
+config.log
+config.status
+stamp-h1
