@@ -25,7 +25,7 @@ if test $NETCDF_V4 = "no"; then
 fi
 
 #------------------------------------------------------------------------
-# Check for C compiler. NOTE that this must come AFTER the netcdf check. 
+# Check for C compiler. NOTE that this must come AFTER the netcdf check.
 # The netcdf library could have been compiled with, for example, Intel C;
 # we have to specifically check if the same compiler used to compile the
 # netcdf library exists.
@@ -34,9 +34,8 @@ AC_PROG_CC( $NETCDF_CC )
 AC_ISC_POSIX
 AC_HEADER_STDC
 
-
 AC_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE([ncview],[ncview_version])
+AM_INIT_AUTOMAKE
 
 AC_PATH_X
 if test "x$no_x" == "xyes"; then
@@ -103,7 +102,7 @@ LIBS=$LIBSsave
 CFLAGS=$CFLAGSsave
 
 #------------------------------------------------------------------------------
-# Check for X11 library. It's not clear to me why this is necessary, yet Darwin 
+# Check for X11 library. It's not clear to me why this is necessary, yet Darwin
 # requires a separate check
 #------------------------------------------------------------------------------
 haveX11=yes
@@ -221,7 +220,7 @@ CC_TEST_SAME=$CC
 set $CC_TEST_SAME
 CC_TEST_SAME=$1
 if test x$CC_TEST_SAME = xcc; then
-	CC_TEST_SAME=gcc			
+	CC_TEST_SAME=gcc
 fi
 NETCDF_CC_TEST_SAME=$NETCDF_CC
 set $NETCDF_CC_TEST_SAME
@@ -327,4 +326,3 @@ echo " "
 else
 echo "        not found. Install libpng, or specify --with-png_incdir=... and --with-png_libdir=... flags to enable"
 fi
-

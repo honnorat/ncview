@@ -6,9 +6,11 @@
 /config.h
 /config.status
 /stamp-h1
-src/geteuid
 
 src/Makefile
+src/geteuid
 src/ncview
 src/.deps
+src/interface/.deps
+src/interface/.dirstamp
 autom4te.cache/
