@@ -1,0 +1,3 @@
+# Build atifacts
+*.o
+src/ncview
