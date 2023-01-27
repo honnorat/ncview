@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -84,7 +84,7 @@ int udu_utistime( char *dimname, char *unitstr )
 
 	if( (unit = ut_parse( unitsys, unitstr, UT_ASCII)) == NULL ) {
 		/* can't parse unit spec */
-		if( is_unique(unitstr) ) 
+		if( is_unique(unitstr) )
 			fprintf( stderr, "Note: udunits: unknown units for %s: \"%s\"\n",
 				dimname, unitstr );
 		return( 0 );
@@ -139,7 +139,7 @@ int udu_calc_tgran( int fileid, NCVar *v, int dimid )
 		fprintf( stderr, "internal error: udu_calc_tgran can't parse seconds unit string!\n" );
 		exit( -1 );
 		}
-	
+
 	/* Get converter to convert from "units" to "seconds" */
 	if( ut_are_convertible( unit, seconds ) == 0 ) {
 		/* Units are not convertible */
@@ -164,8 +164,8 @@ int udu_calc_tgran( int fileid, NCVar *v, int dimid )
 	cv_free( convert_units_to_sec );
 
 	delta_sec = fabs(tval1_sec - tval0_sec);
-	
-	if( verbose ) 
+
+	if( verbose )
 		printf( "units: %s  t1: %lf t2: %lf delta-sec: %lf\n", d->units, tval0_user, tval1_user, delta_sec );
 
 	if( delta_sec < 57. ) {
@@ -235,7 +235,7 @@ void udu_fmt_time( char *temp_string, size_t temp_string_len, double new_dimval,
 		strncpy( last_units, dim->units, 1023 );
 		}
 
-	if( utCalendar2_cal( new_dimval, dim->units, &year, &month, &day, &hour, 
+	if( utCalendar2_cal( new_dimval, dim->units, &year, &month, &day, &hour,
 				&minute, &second, dim->calendar ) != 0 ) {
 		fprintf( stderr, "internal error: udu_fmt_time can't convert to calendar value!\n");
 		fprintf( stderr, "units: >%s<\n", dim->units );
@@ -246,10 +246,10 @@ void udu_fmt_time( char *temp_string, size_t temp_string_len, double new_dimval,
 		fprintf( stderr, "udu_fmt_time: dimval=%lf units=%s calendar=%s utCalendar2_cal returns: year=%d month=%d day=%d hour=%d minute=%d second=%lf\n",
 			new_dimval, dim->units, dim->calendar, year, month, day, hour, minute, second );
 		}
-	
+
 	if( include_granularity ) {
 		switch( dim->tgran ) {
-			
+
 			case TGRAN_YEAR:
 			case TGRAN_MONTH:
 			case TGRAN_DAY:
@@ -258,7 +258,7 @@ void udu_fmt_time( char *temp_string, size_t temp_string_len, double new_dimval,
 
 			case TGRAN_HOUR:
 			case TGRAN_MIN:
-				snprintf( temp_string, temp_string_len-1, "%1d-%s-%04d %02d:%02d", day, 
+				snprintf( temp_string, temp_string_len-1, "%1d-%s-%04d %02d:%02d", day,
 						months[month-1], year, hour, minute );
 				break;
 
@@ -275,7 +275,7 @@ void udu_fmt_time( char *temp_string, size_t temp_string_len, double new_dimval,
 }
 
 /******************************************************************************/
-	static int 
+	static int
 is_unique( char *units )
 {
 	UniqList	*ul, *ul_new, *prev_ul;
@@ -288,10 +288,10 @@ is_unique( char *units )
 		uniq = ul_new;
 		return( TRUE );
 		}
-	
+
 	ul = uniq;
 	while( ul != NULL ) {
-		if( strcmp( ul->name, units ) == 0 ) 
+		if( strcmp( ul->name, units ) == 0 )
 			return( FALSE );
 		prev_ul = ul;
 		ul = ul->next;

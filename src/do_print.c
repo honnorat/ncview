@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -57,7 +57,7 @@ static void print_header( FILE *out_file, float scale, size_t x, size_t y, size_
 static void calc_scale( float *scale, size_t x, size_t y );
 static void set_font( FILE *outf, char *name, int size );
 static void do_outline( FILE *f, size_t x, size_t y );
-static void print_other_info( FILE *out_file, float output_scale, size_t x_size, size_t y_size, 
+static void print_other_info( FILE *out_file, float output_scale, size_t x_size, size_t y_size,
 			size_t center_x, size_t center_y, size_t top_of_image, size_t bot_of_image );
 
 /********************************************************************/
@@ -65,7 +65,7 @@ static void print_other_info( FILE *out_file, float output_scale, size_t x_size,
 	void
 print_init( void )
 {
-	printopts.page_width    	= PAGE_WIDTH_INCHES; 
+	printopts.page_width    	= PAGE_WIDTH_INCHES;
 	printopts.page_height   	= PAGE_HEIGHT_INCHES;
 	printopts.page_x_margin 	= PAGE_X_MARGIN;
 	printopts.page_upper_y_margin 	= PAGE_UPPER_Y_MARGIN;
@@ -97,7 +97,7 @@ print_init( void )
 do_print( void )
 {
 	long	i, j;
-	size_t	x_size, y_size, scaled_x_size, scaled_y_size, top_of_image, bot_of_image, 
+	size_t	x_size, y_size, scaled_x_size, scaled_y_size, top_of_image, bot_of_image,
 		center_x, center_y, left_of_image, right_of_image;
 	char	outfname[1024], tstr[1500];
 	int     outfid;
@@ -113,7 +113,7 @@ do_print( void )
 	y_size = *(view->variable->size + view->y_axis_id);
 	view_get_scaled_size( options.blowup, x_size, y_size, &scaled_x_size, &scaled_y_size );
 
-	snprintf( printopts.out_file_name, 1024, "ncview.%s.ps", view->variable->name ); 
+	snprintf( printopts.out_file_name, 1024, "ncview.%s.ps", view->variable->name );
 	if( printer_options( &printopts ) == MESSAGE_CANCEL )
 		return;
 
@@ -136,7 +136,7 @@ do_print( void )
 	else {
 	    if( warn_if_file_exits( printopts.out_file_name ) == MESSAGE_CANCEL )
 		return;
-	    
+
 	    if( (outf = fopen(printopts.out_file_name, "w" )) == NULL ) {
 		snprintf( tstr, 1499, "Error opening file %s for output!\n",
 			 outfname );
@@ -144,7 +144,7 @@ do_print( void )
 		return;
 	    }
 	}
-	
+
 	in_set_cursor_busy();
 	calc_scale( &output_scale, scaled_x_size, scaled_y_size );
 
@@ -167,7 +167,7 @@ do_print( void )
 			for( i=0; i<scaled_x_size; i++ ) {
 				pix = *(view->pixels + j*scaled_x_size + i);
 				pix_to_rgb( pix, &r, &g, &b );
-				fprintf( outf, "%02x%02x%02x", (r>>8), (g>>8), (b>>8)); 
+				fprintf( outf, "%02x%02x%02x", (r>>8), (g>>8), (b>>8));
 				n_print += 6;
 				if( n_print > 70 ) {
 					fprintf( outf, "\n" );
@@ -177,14 +177,14 @@ do_print( void )
 			}
 		fprintf( outf, "\n\n" );
 		}
-	
+
 	/* Outline the color contour with lines */
-	if( printopts.include_outline ) 
+	if( printopts.include_outline )
 		do_outline( outf, scaled_x_size, scaled_y_size );
 
 	fprintf( outf, "\n\ngrestore\n" );
 
-	print_other_info( outf, output_scale, scaled_x_size, scaled_y_size, center_x, center_y, 
+	print_other_info( outf, output_scale, scaled_x_size, scaled_y_size, center_x, center_y,
 			top_of_image, bot_of_image );
 
 #ifdef DEBUG
@@ -195,8 +195,8 @@ do_print( void )
 /*************************************************************************/
 
 	static void
-print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size, 
-			size_t center_x, size_t center_y, 
+print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
+			size_t center_x, size_t center_y,
 			size_t top_of_image, size_t bot_of_image )
 {
 	char 	*units, *x_dim_name, *x_dim_longname,
@@ -222,7 +222,7 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 	y_dim_longname = fi_dim_longname( view->variable->first_file->id, y_dim_name );
 	y_units        = fi_dim_units( view->variable->first_file->id, y_dim_name );
 
-	main_long_name = fi_long_var_name( view->variable->first_file->id, 
+	main_long_name = fi_long_var_name( view->variable->first_file->id,
 			view->variable->name );
 	if( main_long_name == NULL )
 		main_long_name = view->variable->name;
@@ -239,7 +239,7 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 
 		/* move to the center, then half the string's width */
 		set_font( outf, printopts.font_name, printopts.header_font_size );
-		fprintf( outf, "%ld %ld moveto\n", 
+		fprintf( outf, "%ld %ld moveto\n",
 				center_x,
 				top_of_image+printopts.font_size );
 		fprintf( outf, "(%s) stringwidth pop -0.5 mul 0 rmoveto\n", tstr );
@@ -255,7 +255,7 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 			strcat( tstr, x_units );
 			strcat( tstr, ")" );
 			}
-		fprintf( outf, "%ld %ld moveto\n", 
+		fprintf( outf, "%ld %ld moveto\n",
 			center_x, bot_of_image-(long)(1.5*(float)printopts.font_size) );
 		fprintf( outf, "(%s) stringwidth pop -0.5 mul 0 rmoveto\n", tstr );
 		fprintf( outf, "(%s) show\n", tstr );
@@ -268,10 +268,10 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 			strcat( tstr, y_units );
 			strcat( tstr, ")" );
 			}
-		fprintf( outf, "%ld %ld moveto\n", 
+		fprintf( outf, "%ld %ld moveto\n",
 			center_x - (long)((float)x_size*output_scale/2.0),
 			center_y );
-		fprintf( outf, "gsave 90 rotate 0 %d rmoveto\n", 
+		fprintf( outf, "gsave 90 rotate 0 %d rmoveto\n",
 				(int)((float)printopts.font_size*output_scale) );
 		fprintf( outf, "(%s) stringwidth pop -0.5 mul 0 rmoveto\n", tstr );
 		fprintf( outf, "(%s) show grestore\n", tstr );
@@ -285,14 +285,14 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 
 		/**** File title ***/
 		if( fi_title( view->variable->first_file->id ) != NULL ) {
-			fprintf( outf, "gsave (%s) show grestore\n", 
+			fprintf( outf, "gsave (%s) show grestore\n",
 				fi_title( view->variable->first_file->id ) );
-			fprintf( outf, "0 %d rmoveto\n", 
+			fprintf( outf, "0 %d rmoveto\n",
 				-(printopts.leading+printopts.font_size) );
 			}
 
 		/*** Range of data ***/
-		snprintf( tstr, 1499, "Range of %s: %g to %g %s", main_long_name, 
+		snprintf( tstr, 1499, "Range of %s: %g to %g %s", main_long_name,
 			view->variable->user_min, view->variable->user_max, main_units );
 		fprintf( outf, "gsave (%s) show grestore\n", tstr );
 		fprintf( outf, "0 %d rmoveto\n", -(printopts.leading+printopts.font_size) );
@@ -300,21 +300,21 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 		/*** Range of X axis ***/
 		d = *(view->variable->dim + view->x_axis_id);
 		if( x_units == NULL )
-			snprintf( tstr, 1499, "Range of %s: %g to %g", 
+			snprintf( tstr, 1499, "Range of %s: %g to %g",
 				x_dim_longname, d->min, d->max);
 		else
-			snprintf( tstr, 1499, "Range of %s: %g to %g %s", 
+			snprintf( tstr, 1499, "Range of %s: %g to %g %s",
 				x_dim_longname, d->min, d->max, x_units );
 		fprintf( outf, "gsave (%s) show grestore\n", tstr );
 		fprintf( outf, "0 %d rmoveto\n", -(printopts.leading+printopts.font_size) );
 
 		/*** Range of Y axis ***/
 		d = *(view->variable->dim + view->y_axis_id);
-		if( options.invert_physical ) 
-			snprintf( tstr, 1499, "Range of %s: %g to %g", 
+		if( options.invert_physical )
+			snprintf( tstr, 1499, "Range of %s: %g to %g",
 				y_dim_longname, d->max, d->min );
 		else
-			snprintf( tstr, 1499, "Range of %s: %g to %g", 
+			snprintf( tstr, 1499, "Range of %s: %g to %g",
 				y_dim_longname, d->min, d->max );
 		if( y_units != NULL ) {
 			strcat( tstr, " " );
@@ -325,7 +325,7 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 
 		/*** Values of other dimensions ***/
 		for(i=0; i<view->variable->n_dims; i++)
-			if( (i != view->x_axis_id) && 
+			if( (i != view->x_axis_id) &&
 			    (i != view->y_axis_id) &&
 			    (*(view->variable->dim+i) != NULL)) {
 				dim_name     = (*(view->variable->dim + i))->name;
@@ -345,14 +345,14 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 				fprintf( outf, "gsave (%s) show grestore\n", tstr );
 				fprintf( outf, "0 %d rmoveto\n", -(printopts.leading+printopts.font_size) );
 				}
-			
+
 		/*** Name of file ***/
 		tstr[0] = '\0';
 		actual_place = (size_t *)malloc( sizeof(size_t)*20 );
 		virt_to_actual_place( view->variable, view->var_place, actual_place, &fdb );
 		if( (fi_recdim_id( view->variable->first_file->id ) != view->x_axis_id ) &&
-		    (fi_recdim_id( view->variable->first_file->id ) != view->y_axis_id)) 
-			snprintf( tstr, 1499, "Frame %ld in ", 
+		    (fi_recdim_id( view->variable->first_file->id ) != view->y_axis_id))
+			snprintf( tstr, 1499, "Frame %ld in ",
 				*(actual_place + view->scan_axis_id)+1 );
 		strcat( tstr, "File " );
 		strcat( tstr, fdb->filename );
@@ -364,10 +364,10 @@ print_other_info( FILE *outf, float output_scale, size_t x_size, size_t y_size,
 		sec_since_1970 = time(NULL);
 		snprintf( tstr, 1499, "%s %s", getlogin(), ctime(&sec_since_1970) );
 		/* Make the id font a bit smaller */
-		set_font( outf, printopts.font_name, 
+		set_font( outf, printopts.font_name,
 				(int)((float)printopts.font_size*ID_FONT_SIZE_SCALE) );
-		fprintf( outf, "gsave %ld %ld translate 0 0 moveto\n", 
-			center_x + (long)((float)x_size*output_scale/2.0) 
+		fprintf( outf, "gsave %ld %ld translate 0 0 moveto\n",
+			center_x + (long)((float)x_size*output_scale/2.0)
 						+ printopts.font_size + printopts.leading,
 			bot_of_image );
 		fprintf( outf, "90 rotate (%s) show grestore\n", tstr );
@@ -443,7 +443,7 @@ print_header( FILE *f, float scale, size_t x, size_t y, size_t top_of_image )
 	fprintf( f, "gsave\n" );
 
 	/* This sets the position of the output image on the page */
-	fprintf( f, "%ld %ld translate\n", 
+	fprintf( f, "%ld %ld translate\n",
 			(long)(printopts.page_x_margin*printopts.ppi), top_of_image );
 
 	/* This sets the size of the image */

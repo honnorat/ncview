@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,9 +22,9 @@
  */
 
 /*************************************************************************
- * Routines to handle a button being pressed.  My convention for the 
- * modifiers: MOD_1 means the standard action.  MOD_2 means an accelerated 
- * version of the standard aciton. MOD_3 means a backwards version of the 
+ * Routines to handle a button being pressed.  My convention for the
+ * modifiers: MOD_1 means the standard action.  MOD_2 means an accelerated
+ * version of the standard aciton. MOD_3 means a backwards version of the
  * standard action.  MOD_4 means an accelerated backwards version of the
  * standard action.
  *************************************************************************/
@@ -91,7 +91,7 @@ do_rewind( int modifier )
 	cur_button = BUTTON_REWIND;
 
 	delay_millisec = (long)(DELAY_DELTA * options.frame_delay) + DELAY_OFFSET;
- 
+
 	in_timer_clear();
 
 	if( modifier == MOD_2 ) {
@@ -128,11 +128,11 @@ do_backwards( int modifier )
 
 	if( modifier == MOD_2 ) {
 		size = view_current_nt();
-		if( size < 500 ) 
+		if( size < 500 )
 			change_view( -10, PERCENT );
-		else if( size < 5000 ) 
+		else if( size < 5000 )
 			change_view(  -5, PERCENT );
-		else if( size < 50000 ) 
+		else if( size < 50000 )
 			change_view(  -2, PERCENT );
 		else
 			change_view(  -1, PERCENT );
@@ -162,11 +162,11 @@ do_forward( int modifier )
 
 	if( modifier == MOD_2 ) {
 		size = view_current_nt();
-		if( size < 500 ) 
+		if( size < 500 )
 			change_view( 10, PERCENT );
-		else if( size < 5000 ) 
+		else if( size < 5000 )
 			change_view(  5, PERCENT );
-		else if( size < 50000 ) 
+		else if( size < 50000 )
 			change_view(  2, PERCENT );
 		else
 			change_view(  1, PERCENT );
@@ -206,7 +206,7 @@ do_fastforward( int modifier )
 			in_timer_set( (XtTimerCallbackProc)do_fastforward, (XtPointer)(MOD_1), delay_millisec );
 		}
 }
-		
+
 /*===========================================================================================*/
 	void
 do_colormap_sel( int modifier )
@@ -278,21 +278,21 @@ do_blowup( int modifier )
 		/* Double the current blowup -- make image BIGGER */
 		if( options.blowup > 0 )
 			view_change_blowup( options.blowup, TRUE, view_var_is_valid );
-		else	
+		else
 			view_change_blowup( -(options.blowup)/2, TRUE, view_var_is_valid );
 		}
 
 	else if( modifier == MOD_4 ) {
 		/* Halve the current blowup -- make image SMALLER */
-		if( options.blowup > 0 ) 
+		if( options.blowup > 0 )
 			view_change_blowup( -(options.blowup/2), TRUE, view_var_is_valid );
 		else
 			view_change_blowup( options.blowup, TRUE, view_var_is_valid );
 		}
-		
+
 	else
 		view_change_blowup( 1, TRUE, view_var_is_valid );
-	
+
 	/* If we are shrinking magnification, then try re-saving
 	 * the frames because now there might be enough room.
 	 */

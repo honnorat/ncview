@@ -18,14 +18,14 @@ ArrayToSort r;
 			}
 		r[i] = tempr;
 		/*** Sort recursively, the smallest first ***/
-		if ( i-lo < up-i ) { 
-			sort(r,lo,i-1);  
-			lo = i+1; 
+		if ( i-lo < up-i ) {
+			sort(r,lo,i-1);
+			lo = i+1;
 			}
-		else    
-			{ 
-			sort(r,i+1,up);  
-			up = i-1; 
+		else
+			{
+			sort(r,i+1,up);
+			up = i-1;
 			}
 		}
 }

@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -36,7 +36,7 @@
 /* Number and order of these must match the defines given in ncview.defines.h!
  * They are used as the labels for the radio buttons
  */
-char *my_overlay_names[] = { "None",  
+char *my_overlay_names[] = { "None",
                         "0.8 degree coastlines",
 		        "0.08 degree coastlines",
 			"USA states",
@@ -69,7 +69,7 @@ do_overlay( int n, char *custom_filename, int suppress_screen_changes )
 		free( options.overlay->overlay );
 
 	switch(n) {
-		
+
 		case OVERLAY_NONE:
 			options.overlay->doit = FALSE;
 			if( ! suppress_screen_changes ) {
@@ -99,7 +99,7 @@ do_overlay( int n, char *custom_filename, int suppress_screen_changes )
 				in_error( "Specified custom overlay filename is not a valid filename!\n" );
 				return;
 				}
-			options.overlay->overlay = gen_overlay( view, custom_filename ); 
+			options.overlay->overlay = gen_overlay( view, custom_filename );
 			if( options.overlay->overlay != NULL ) {
 				options.overlay->doit = TRUE;
 				if( ! suppress_screen_changes ) {
@@ -292,12 +292,12 @@ gen_overlay_internal( View *v, float *data, long nvals )
 			y = data[ii+1];
 
 			i = gen_xform( x, x_size, dim_x->values );
-			if( i == -2 ) 
+			if( i == -2 )
 				return( NULL );
 			j = gen_xform( y, y_size, dim_y->values );
-			if( j == -2 ) 
+			if( j == -2 )
 				return( NULL );
-			if( (i > 0) && (j > 0)) 
+			if( (i > 0) && (j > 0))
 				*(overlay + j*x_size + i) = 1;
 			}
 		}
@@ -321,7 +321,7 @@ gen_overlay( View *v, char *overlay_fname )
 
 	/* Open the overlay file */
 	if( (f = fopen(overlay_fname, "r")) == NULL ) {
-		snprintf( err_mess, 1024, "Error: can't open overlay file named \"%s\"\n", 
+		snprintf( err_mess, 1024, "Error: can't open overlay file named \"%s\"\n",
 			overlay_fname );
 		in_error( err_mess );
 		return( NULL );
@@ -337,7 +337,7 @@ gen_overlay( View *v, char *overlay_fname )
 		}
 	for( i=0; i<strlen(id_string); i++ )
 		if( line[i] != id_string[i] ) {
-			snprintf( err_mess, 1024, "Error trying to read overlay file named \"%s\"\nFile does not start with \"%s version-num\"\n", 
+			snprintf( err_mess, 1024, "Error trying to read overlay file named \"%s\"\nFile does not start with \"%s version-num\"\n",
 				overlay_fname, id_string );
 			in_error( err_mess );
 			return( NULL );
@@ -363,19 +363,19 @@ gen_overlay( View *v, char *overlay_fname )
 	for( i=0; i<x_size*y_size; i++ )
 		*(overlay+i) = 0;
 
-	/* Read in the overlay file -- skip lines with first char of #, 
+	/* Read in the overlay file -- skip lines with first char of #,
 	 * they are comments.
 	 */
-	while( fgets(line, 80, f) != NULL ) 
+	while( fgets(line, 80, f) != NULL )
 		if( line[0] != '#' ) {
 			sscanf( line, "%f %f", &x, &y );
 			i = gen_xform( x, x_size, dim_x->values );
-			if( i == -2 ) 
+			if( i == -2 )
 				return( NULL );
 			j = gen_xform( y, y_size, dim_y->values );
-			if( j == -2 ) 
+			if( j == -2 )
 				return( NULL );
-			if( (i > 0) && (j > 0)) 
+			if( (i > 0) && (j > 0))
 				*(overlay + j*x_size + i) = 1;
 			}
 
@@ -383,7 +383,7 @@ gen_overlay( View *v, char *overlay_fname )
 }
 
 /******************************************************************************
- * Given the (dimensional) value from the overlay file, convert it to 
+ * Given the (dimensional) value from the overlay file, convert it to
  * the nearest index along the proper dimension that the point corresponds to.
  * 'n' is the length of array dimvals.
  *
@@ -415,7 +415,7 @@ gen_xform( float value, int n, float *dimvals )
 		if( value > *(dimvals+n-1) )
 			return( -1 );
 		}
-	
+
 	for( i=0; i<n; i++ ) {
 		dist = fabs(*(dimvals+i) - value);
 		if( dist < min_dist ) {
@@ -469,7 +469,7 @@ overlay_custom_n( void )
  *
  */
 	void
-overlay_find_closest_pt_inner( size_t point_number, size_t init_guess_idxx, size_t init_guess_idxy, 
+overlay_find_closest_pt_inner( size_t point_number, size_t init_guess_idxx, size_t init_guess_idxy,
 	float locx, float locy, float *xvals, float *yvals, size_t nx, size_t ny, size_t *idxx, size_t *idxy )
 {
 	float	dist[9], dx, dy, mindist, tdist[9], prev_d4;
@@ -477,7 +477,7 @@ overlay_find_closest_pt_inner( size_t point_number, size_t init_guess_idxx, size
 	long	have_calc[9], index, minloc, ox, oy, isrc, jsrc, idx_src, idx_dest, debug;
 	long	curx, cury, i2use, j2use, i0, j0;
 	int	n_wrapped_x, n_wrapped_y;
-	
+
 	debug  = 0;
 	nsteps = 0L;
 	n_wrapped_x = 0;
@@ -525,22 +525,22 @@ overlay_find_closest_pt_inner( size_t point_number, size_t init_guess_idxx, size
 				xx = i2use + j2use*nx;
 				dx = locx - xvals[xx];
 				if( dx != dx ) {
-					fprintf( stderr, "Error, bad dx  locx=%f  index_xx=%ld  xvals[index]=%f\n", 
+					fprintf( stderr, "Error, bad dx  locx=%f  index_xx=%ld  xvals[index]=%f\n",
 						locx, xx, xvals[xx] );
 					exit(-1);
 					}
 				dy = locy - yvals[xx];
 				if( dy != dy ) {
-					fprintf( stderr, "Error, bad dy  locy=%f  index_xx=%ld  yvals[index]=%f\n", 
+					fprintf( stderr, "Error, bad dy  locy=%f  index_xx=%ld  yvals[index]=%f\n",
 						locy, xx, yvals[xx] );
 					exit(-1);
 					}
 				dist[index] = dx*dx + dy*dy;	/* don't bother with square root, takes time and won't affect minimum finding */
 				}
-			if( debug ) 
-				printf( "calculating for index=%ld, i2use,j2use=%ld,%ld  xx=%ld  dx,dy=%f,%f  dist=%f\n", 
+			if( debug )
+				printf( "calculating for index=%ld, i2use,j2use=%ld,%ld  xx=%ld  dx,dy=%f,%f  dist=%f\n",
 					index, i2use, j2use, xx, dx, dy, dist[index] );
-				
+
 			if( dist[index] < mindist ) {
 				mindist = dist[index];
 				minloc  = index;
@@ -559,12 +559,12 @@ overlay_find_closest_pt_inner( size_t point_number, size_t init_guess_idxx, size
 					}
 				printf( "\n" );
 				}
-				
+
 			}
 
 		prev_d4 = dist[4];
 
-		/* Now do the shifting towards the downhill direction 
+		/* Now do the shifting towards the downhill direction
 		 *
 		 *	0 1 2
 		 * 	3 4 5

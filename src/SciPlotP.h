@@ -123,7 +123,7 @@ typedef struct _SciPlotItem {
 			short color;
 			short style;
 		} any;
-			
+
 	} kind;
 	short individually_allocated;
 	struct _SciPlotItem *next;

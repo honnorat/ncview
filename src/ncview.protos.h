@@ -3,7 +3,7 @@
  * Copyright (C) 1993-2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -23,7 +23,7 @@
 #include "stringlist.h"
 
 /******************************************************************************
- * in ncview.c 
+ * in ncview.c
  */
 void	initialize_misc		    ( void );
 Stringlist *parse_options           ( int argc,  char *argv[] );
@@ -41,7 +41,7 @@ void	print_copying	    	    ( void );
 void	useage			    ( void );
 
 /******************************************************************************
- * in file.c 
+ * in file.c
  */
 int 	fi_confirm       ( char *name );
 int	fi_writable      ( char *name );
@@ -60,7 +60,7 @@ char 	*fi_dim_units    ( int fileid, char *var_name );
 char 	*fi_dim_calendar ( int fileid, char *dim_name );
 int 	fi_has_dim_values( int fileid, char *dim_name );
 char 	*fi_dim_longname ( int fileid, char *dim_name );
-nc_type fi_dim_value     ( NCVar *v, int dim_id, size_t place, double *ret_val_double, char *ret_val_char, 
+nc_type fi_dim_value     ( NCVar *v, int dim_id, size_t place, double *ret_val_double, char *ret_val_char,
 				int *return_has_bounds, double *return_bounds_min, double *return_bounds_max,
 				size_t *complete_ndim_virt_place );
 char 	*fi_dim_id_to_name( int fileid, char *var_name, int dim_id );
@@ -71,7 +71,7 @@ void 	fi_fill_value	 ( NCVar *var, float *fillval );
 int 	fi_recdim_id     ( int fileid );
 
 /******************************************************************************
- * in file_netcdf.c, netcdf specific routines 
+ * in file_netcdf.c, netcdf specific routines
  */
 char *  netcdf_att_string       ( int fileid, char *var_name );
 char *  netcdf_global_att_string( int fileid );
@@ -81,7 +81,7 @@ int 	netcdf_fi_initialize	( char *name );
 Stringlist *netcdf_fi_list_vars	( int fileid );
 int	netcdf_fi_n_dims	( int fileid, char *var_name );
 size_t	*netcdf_fi_var_size	( int fileid, char *var_name );
-void 	netcdf_fi_get_data	( int fileid, char *var_name, size_t *start_pos, 
+void 	netcdf_fi_get_data	( int fileid, char *var_name, size_t *start_pos,
 						size_t *count, float *data, NetCDFOptions *aux_data );
 void	netcdf_fi_close		( int fileid );
 int 	netcdf_n_dims 		( int cdfid, char *varname );
@@ -94,7 +94,7 @@ char 	*netcdf_var_units       ( int fileid, char *var_name );
 char 	*netcdf_dim_units       ( int fileid, char *var_name );
 int 	netcdf_has_dim_values   ( int fileid, char *dim_name );
 char 	*netcdf_dim_longname 	( int fileid, char *dim_name );
-nc_type	netcdf_dim_value     	( int fileid, char *dim_name, size_t place, double *ret_val_double, char *ret_val_char, 
+nc_type	netcdf_dim_value     	( int fileid, char *dim_name, size_t place, double *ret_val_double, char *ret_val_char,
 				  size_t virt_place, int *has_bounds, double *return_bounds_min, double *return_bounds_max  );
 char 	*netcdf_dim_id_to_name  ( int fileid, char *var_name, int dim_id );
 int 	netcdf_dim_name_to_id   ( int fileid, char *var_name, char *dim_name );
@@ -138,7 +138,7 @@ void 	calc_dim_minmaxes   ( void );
 void    add_vars_to_list    ( Stringlist *var_list, int id, char *filename, int nfiles );
 int     is_scannable        ( NCVar *v, int i );
 void 	sl_cat		    ( Stringlist **dest, Stringlist **src );
-void 	get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data, 
+void 	get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data,
 					float *min, float *max, int verbose );
 int 	unpack_groupname( char *varname, int ig, char *groupname );
 void 	cache_scalar_coord_info( NCVar *vars );
@@ -146,7 +146,7 @@ int 	count_nslashes	    ( char *s );
 Stringlist *get_group_list  ( NCVar *vars );
 
 /******************************************************************************
- * in interface.c 
+ * in interface.c
  */
 void 	in_change_current	( char *dim_name, int modifier );
 void 	in_change_dat		( size_t index, float new_val );
@@ -180,7 +180,7 @@ void	in_change_min		( char *label );
 void 	in_flush		( void );
 void 	report_position		( int x, int y, unsigned int button_mask );
 int	in_popup_XY_graph	( size_t n, int dimindex, double *xvals, double *yvals, char *x_axis_title,
-				char *y_axis_title, char *title, char *legend, 
+				char *y_axis_title, char *title, char *legend,
 				Stringlist *scannable_dims );
 void 	in_query_pointer_position( int *x, int *y );
 void	in_popup_2d_window	( void );
@@ -217,7 +217,7 @@ void	do_transform	  ( int modifier );
 void	do_blowup_type	  ( int modifier );
 
 /******************************************************************************
- * in x_interface.c 
+ * in x_interface.c
  */
 void	x_error                 ( char *message );
 void 	x_set_windows_colormap_to_current( Widget w );
@@ -266,14 +266,14 @@ int     x_dialog                ( char *message, char *ret_string, int want_canc
 /**********************************************************************
  * in range.c
  */
-int 	x_range( float old_min, float old_max, float global_min, 
+int 	x_range( float old_min, float old_max, float global_min,
 		float global_max, float *new_min, float *new_max,
 		int *allvars );
 void 	x_range_init();
 void 	x_plot_range_init();
 
 /******************************************************************************
- * in view.c 
+ * in view.c
  */
 int 	set_scan_variable    ( NCVar *var );
 void 	set_scan_view        ( size_t scan_place );
@@ -344,7 +344,7 @@ int 	x_popup_XY_graph( long n, int dimindex, double *xvals, double *yvals, char 
 void 	plot_xy_init();
 void 	unlock_plot( void );
 void 	close_all_XY_plots();
- 
+
 /******************************************************************************
  * in plot_range.c
  */

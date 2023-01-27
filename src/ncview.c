@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2015 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, Version 3, as 
+ * it under the terms of the GNU General Public License, Version 3, as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -88,11 +88,11 @@ main( int argc, char **argv )
 	/* Initialize misc constants */
 	initialize_misc();
 
-	/* Read in our state file from a previous run of ncview 
+	/* Read in our state file from a previous run of ncview
 	 */
 	read_in_state = NULL;	/* Note: a global var. Set to null to flag following routine to make a new stringlist */
 	err = read_state_from_file( &read_in_state );
-	if( err == 0 ) 	
+	if( err == 0 )
 		found_state_file = TRUE;
 	else
 		found_state_file = FALSE;
@@ -112,7 +112,7 @@ main( int argc, char **argv )
 		exit( -1 );
 		}
 
-	/* If any vars are in groups, we build the interface differently. 
+	/* If any vars are in groups, we build the interface differently.
 	 * I pass this information through the global "options" struct.
 	 */
 	if( any_var_in_group( variables )) {
@@ -124,7 +124,7 @@ main( int argc, char **argv )
 
 	/* This initializes the colormaps, and then the X widows system */
 	if( options.debug ) printf( "Initializing display interface...\n" );
-	initialize_display_interface(); 
+	initialize_display_interface();
 	if( options.debug ) printf( "Initializing printing subsystem...\n" );
 	print_init();
 	if( options.debug ) printf( "Initializing overlays...\n" );
@@ -416,7 +416,7 @@ initialize_colormaps()
 	 * in simple ASCII files with 256 lines, where each line has 3 entries
 	 * (separated by spaces), which indicate the R, B, and G values.  Each
 	 * value must be an integer between 0 and 255, inclusive.  User-specified
-	 * colormaps are contained in files with the extension of ".ncmap", 
+	 * colormaps are contained in files with the extension of ".ncmap",
 	 * and can live in the following places:
 	 *  1) NCVIEW_LIB_DIR, which is determined at installation time.
 	 *     	A reasonable choice is "/usr/local/lib/ncview".
@@ -453,11 +453,11 @@ ncview_cmap_suffix( char *s, int *n_suffix )
 {
 	int		nc;
 
-	if( s == NULL ) 
+	if( s == NULL )
 		return( 1 );
 
 	nc = strlen( s );
-	if( nc < 5 ) 
+	if( nc < 5 )
 		return( 1 );
 
 	if( strncasecmp( (s+nc-4), ".ncm", 4 ) == 0 ) {
@@ -465,7 +465,7 @@ ncview_cmap_suffix( char *s, int *n_suffix )
 		return( 0 );
 		}
 
-	if( nc < 7 ) 
+	if( nc < 7 )
 		return( 1 );
 
 	if( strncasecmp( (s+nc-6), ".ncmap", 6 ) == 0 ) {
@@ -484,15 +484,15 @@ get_cmaps_from_dir( char *dir_name )
 	struct dirent	*dir_entry;
 	int		n_colormaps = 0, n_suffix;
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "Getting colormaps from dir >%s<\n", dir_name );
 
 	ncdir     = opendir( dir_name );
-	if( ncdir == NULL ) 
+	if( ncdir == NULL )
 		return( 0 );
 	dir_entry = readdir( ncdir    );
 	while( dir_entry != NULL ) {
-		/* Additional allowed filenames as per suggestion by 
+		/* Additional allowed filenames as per suggestion by
 		 * Arlindo da Silva for his Windows port
 		 */
 		if( ncview_cmap_suffix( dir_entry->d_name, &n_suffix ) == 0) {
@@ -547,7 +547,7 @@ init_cmap_from_data( char *colormap_name, int *data )
 	int	i;
 	unsigned char r[256], g[256], b[256];
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "    ... initting cmap >%s< from supplied data\n", colormap_name );
 
 	for( i=0; i<256; i++ ) {
@@ -570,7 +570,7 @@ init_cmap_from_file( char *dir_name, char *file_name, int n_suffix )
 	unsigned char r[256], g[256], b[256];
 	size_t	slen;
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "    ... initting cmap >%s<\n", file_name );
 
 	/* Colormap name is the file name without the '.ncmap' or '.ncm' extension */
@@ -580,7 +580,7 @@ init_cmap_from_file( char *dir_name, char *file_name, int n_suffix )
 
 	/* Make sure this colormap name isn't already known */
 	if( x_seen_colormap_name( colormap_name )) {
-		if( options.debug ) 
+		if( options.debug )
 			printf( "Already have a colormap named >%s<, not NOT inittig colormap from file >%s<\n",
 				colormap_name, file_name);
 		return;
@@ -649,7 +649,7 @@ initialize_file_interface( Stringlist *input_files )
 	int	i, idim, nvars, nfiles;
 	NCVar	*var;
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "Initializing file interface...\n" );
 
 	nfiles = stringlist_len( input_files );
@@ -658,7 +658,7 @@ initialize_file_interface( Stringlist *input_files )
 		fi_initialize( input_files->string, nfiles );
 		input_files = input_files->next;
 		}
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "...calculating dim min & maxes...\n" );
 	calc_dim_minmaxes();
 
@@ -674,9 +674,9 @@ initialize_file_interface( Stringlist *input_files )
 		for( idim=0; idim<var->n_dims; idim++ ) {
 			if( *(var->size + idim) > 1 )
 				var->effective_dimensionality++;
-			if( options.debug ) 
+			if( options.debug )
 				fprintf( stderr, "var %s has %d dims, dim %d: >%s< len %ld\n",
-					var->name, var->n_dims, idim, 
+					var->name, var->n_dims, idim,
 					var->dim[idim]->name, var->dim[idim]->size );
 			}
 		if( options.debug ) {
@@ -695,7 +695,7 @@ initialize_file_interface( Stringlist *input_files )
 	if( nvars > options.listsel_max )
 		options.varsel_style = VARSEL_MENU;
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "Done initializing file interface...\n" );
 }
 
@@ -765,7 +765,7 @@ int any_var_in_group( NCVar *var ) {
 
 	cursor = var;
 	while( cursor != NULL ) {
-		if( count_nslashes( cursor->name ) > 0 ) 
+		if( count_nslashes( cursor->name ) > 0 )
 			return( 1 );
 		cursor = cursor->next;
 		}
@@ -872,7 +872,7 @@ printf( "POSSIBILITY OF SUCH DAMAGES.\n" );
 }
 
 /***********************************************************************************************/
-	void 
+	void
 print_copying()
 {
 printf( "  The program `ncview' is Copyright (C) 1993 through 2015, David W. Pierce, and \n" );

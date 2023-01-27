@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@
  *
  *	These routines handle the tricky job of setting the proper "view"
  *	of the data file.  The "view" is the 2-D slice which is color-
- *	contoured in the main display window.  Selecting exactly *what* 
+ *	contoured in the main display window.  Selecting exactly *what*
  *	2-D plane to contour from a complex, multi-dimensional, multi-variable
  *	data file is not a trivial task!  If all else fails, be prepared
  *	to enter the view using buttons.
@@ -137,7 +137,7 @@ set_scan_variable( NCVar *var )
 			fprintf( stderr, "...determining scan axes (NEW)\n" );
 		determine_scan_axes( view, var, NULL );
 		if( options.debug )
-			fprintf( stderr, "...axes ids: scan=%d y=%d x=%d\n", 
+			fprintf( stderr, "...axes ids: scan=%d y=%d x=%d\n",
 				view->scan_axis_id, view->y_axis_id, view->x_axis_id );
 		if( var->effective_dimensionality == 1 ) {
 			start = (size_t *)malloc(view->variable->n_dims*sizeof(size_t));
@@ -147,7 +147,7 @@ set_scan_variable( NCVar *var )
 				*(count+i) = 1L;
 				}
 			*(count+view->x_axis_id) = *(view->variable->size + view->x_axis_id);
-			if( options.debug ) 
+			if( options.debug )
 				fprintf( stderr, "set_scan_variable (A): about to call plot_XY_sc\n" );
 			plot_XY_sc( start, count );
 			free( start );
@@ -165,7 +165,7 @@ set_scan_variable( NCVar *var )
 		if( options.debug )
 			fprintf( stderr, "...determining if inverted (NEW)\n" );
 		flip_if_inverted( view );
-	
+
 		/* How big should we initially make the picture? */
 		if( options.debug )
 			fprintf( stderr, "...calculating blowup (NEW)\n" );
@@ -180,7 +180,7 @@ set_scan_variable( NCVar *var )
 		}
 	else
 		{
-		/* Make a NEW view structure, and save the old one, 
+		/* Make a NEW view structure, and save the old one,
 		 * because we still want to scavenge the information
 		 * on what place we are at from the old variable.  This
 		 * is so that when you switch variables, it will keep
@@ -207,7 +207,7 @@ set_scan_variable( NCVar *var )
 				*(count+i) = 1L;
 				}
 			*(count+view->x_axis_id) = *(view->variable->size + view->x_axis_id);
-			if( options.debug ) 
+			if( options.debug )
 				fprintf( stderr, "set_scan_variable (B): about to call plot_XY_sc\n" );
 			plot_XY_sc( start, count );
 			free( start );
@@ -224,14 +224,14 @@ set_scan_variable( NCVar *var )
 		 * ncview can process multiple files, each of which might have its own mapping
 		 * of dimension id to dimension.  So to really see if we are using the same
 		 * dimensions as the previous variable, we have to go through the NAME of the
-		 * dimensions.  These are guaranteed to be unique, according to the netCDF 
+		 * dimensions.  These are guaranteed to be unique, according to the netCDF
 		 * standard.  (I.e., if two variables are using the "Longitude" dimension, you
 		 * can know that it's the SAME Longitude dimension.)
 		 */
-		xdim_old = *(old_view->variable->dim + old_view->x_axis_id); 
-		ydim_old = *(old_view->variable->dim + old_view->y_axis_id); 
-		xdim_new = *(new_view->variable->dim + new_view->x_axis_id); 
-		ydim_new = *(new_view->variable->dim + new_view->y_axis_id); 
+		xdim_old = *(old_view->variable->dim + old_view->x_axis_id);
+		ydim_old = *(old_view->variable->dim + old_view->y_axis_id);
+		xdim_new = *(new_view->variable->dim + new_view->x_axis_id);
+		ydim_new = *(new_view->variable->dim + new_view->y_axis_id);
 		if( (xdim_old==NULL) || (ydim_old==NULL) || (xdim_new==NULL) || (ydim_new==NULL) ||
 		    (strcmp(xdim_old->name, xdim_new->name) != 0) ||
 		    (strcmp(ydim_old->name, ydim_new->name) != 0)) {
@@ -248,7 +248,7 @@ set_scan_variable( NCVar *var )
 		/* If the new var has a different shape than the old var,
 		 * then clear out any old, previous overlay we might be using.
 		 */
-		if( (xdim_new == NULL) || (xdim_old == NULL) || (ydim_new == NULL) || (ydim_old == NULL) || 
+		if( (xdim_new == NULL) || (xdim_old == NULL) || (ydim_new == NULL) || (ydim_old == NULL) ||
 				(xdim_new->size != xdim_old->size) || (ydim_new->size != ydim_old->size))
 			do_overlay(OVERLAY_NONE,NULL,TRUE);
 
@@ -289,7 +289,7 @@ set_scan_variable( NCVar *var )
 	ydim = *(view->variable->dim + view->y_axis_id);
 	if( options.auto_overlay && in_report_auto_overlay() && xdim->is_lon && ydim->is_lat ) {
 		/* Only put overlay on automatically if range is big enough that
-		 * the coastlines can be recognized. 
+		 * the coastlines can be recognized.
 		 */
 		range_x = fabs(xdim->max - xdim->min);
 		range_y = fabs(ydim->max - ydim->min);
@@ -328,7 +328,7 @@ set_scan_variable( NCVar *var )
 	/* Draw the frame info on the screen */
 	if( options.debug )
 		fprintf( stderr, "...putting frame info on screen, scan_axis_id=%d\n", view->scan_axis_id );
-	if( view->scan_axis_id == -1 ) 
+	if( view->scan_axis_id == -1 )
 		set_scan_view( 0L );
 	else
 		set_scan_view( *(view->var_place+view->scan_axis_id) );
@@ -344,7 +344,7 @@ set_scan_variable( NCVar *var )
 	 * because an expansion generates an expose event, which
 	 * is registered to call change_view.
 	 */
-	if( changed_size < 1 ) 
+	if( changed_size < 1 )
 	 	change_view(0,FRAMES);
 
 	/* Pop up the window if we are going to use it. */
@@ -380,7 +380,7 @@ set_scan_buttons( View *local_view )
 		}
 
 	/* If the scan axis is currently appearing as the X or
-	 * Y axis, then disable the buttons which step the 
+	 * Y axis, then disable the buttons which step the
 	 * scan axis (since they are ALL being displayed at
 	 * the moment!)
 	 */
@@ -400,12 +400,12 @@ set_scan_buttons( View *local_view )
 /**************************************************************************************
  * Report current size of scan azis
  */
-	long 
+	long
 view_current_nt()
 {
 	size_t		size;
 
-	if( view == NULL ) 
+	if( view == NULL )
 		return( 0 );
 
 	if( view->variable == NULL )
@@ -453,7 +453,7 @@ change_view( int delta, int interpretation )
 			}
 		else
 			{
-			fprintf( stderr, 
+			fprintf( stderr,
 				"called change_view with no scan_axis\n" );
 			exit( -1 );
 			}
@@ -491,7 +491,7 @@ change_view( int delta, int interpretation )
 			return(0);
 			}
 		}
-		
+
 	/* Have we decremented below the minimum allowed value? */
 	if( place < 0L )
 		place = size - 1L;
@@ -514,7 +514,7 @@ set_scan_view( size_t scan_place )
 	NCDim	*dim;
 	int	has_bounds;
 
-	/* If there is no valid scan axis, immediately return.  That 
+	/* If there is no valid scan axis, immediately return.  That
 	 * case is delt with exclusively at start-up, when selecting
 	 * a new variable.
 	 */
@@ -529,14 +529,14 @@ set_scan_view( size_t scan_place )
 		fprintf( stderr, "resetting to zero\n" );
 		scan_place = 0;
 		}
-		
+
 	dim = *(view->variable->dim + view->scan_axis_id);
 	dim_name = dim->name;
 	*(view->var_place + view->scan_axis_id) = scan_place;
 	snprintf( view_place, 1023, "frame %1ld/%1ld ", scan_place+1, size );
 
 	/* type is the data type of the dimension--can be float or character */
-	type = fi_dim_value( view->variable, view->scan_axis_id, scan_place, &new_dimval, 
+	type = fi_dim_value( view->variable, view->scan_axis_id, scan_place, &new_dimval,
 			temp_string, &has_bounds, &bound_min, &bound_max, view->var_place );
 	if( type == NC_DOUBLE ) {
 		if( dim->timelike && options.t_conv ) {
@@ -588,7 +588,7 @@ set_scan_view( size_t scan_place )
 		}
 
 	/* Construct string showing the values of the scalar coordinates
-	 * for this variable, if any 
+	 * for this variable, if any
 	 */
 	view_construct_scalar_coord_str( scalar_coord_str, 1020 );
 	in_set_label( LABEL_SCALAR_DIMS, scalar_coord_str );
@@ -600,14 +600,14 @@ set_scan_view( size_t scan_place )
 	int
 view_draw( int allow_framestore_usage, int force_range_to_frame )
 {
-	long		i; 
+	long		i;
 	size_t		x_size, y_size, scan_size, scaled_x_size, scaled_y_size, framesize, frameno;
 	static int	last_x_size=0, last_y_size=0;
 	int		must_recalc_range;
 	float		min, max, dat;
 
 	/* The reason why we have to lockout the possiblity that this
-	 * routine is called WHILE it is executing is tricky.  The 
+	 * routine is called WHILE it is executing is tricky.  The
 	 * 'data_to_pixels' call, below and elsewhere, can result in a modal
 	 * dialog being popped up, but the ccontour window can still
 	 * get 'expose' events.  In that case multiple modal dialogs would
@@ -623,7 +623,7 @@ view_draw( int allow_framestore_usage, int force_range_to_frame )
 	 * window gets 'expose' events, which happens on program startup,
 	 * before the view has been initialized.
 	 */
-	if( (view == NULL) || (view->data == NULL)) { 
+	if( (view == NULL) || (view->data == NULL)) {
 		lockout_view_changes = FALSE;
 		return(0);
 		}
@@ -639,7 +639,7 @@ view_draw( int allow_framestore_usage, int force_range_to_frame )
 
 		for( i=0; i<x_size*y_size; i++ ) {
 			dat = *((float *)(view->data)+i);
-			if( dat != dat ) 
+			if( dat != dat )
 				dat = view->variable->fill_value;
 			if( ! close_enough( dat, view->variable->fill_value) && (dat != FILL_FLOAT)) {
 				if( dat > max )
@@ -680,7 +680,7 @@ view_draw( int allow_framestore_usage, int force_range_to_frame )
 		if( *(framestore.frame_valid + frameno) == TRUE ) {
 			if( options.debug )
 				printf( "drawing from framestore...\n" );
-			in_draw_2d_field( (framestore.frame + frameno*framesize), 
+			in_draw_2d_field( (framestore.frame + frameno*framesize),
 				scaled_x_size, scaled_y_size, frameno );
 			lockout_view_changes = FALSE;
 
@@ -807,7 +807,7 @@ view_check_new_data( int unused )
 	new_frame_nframes[n_new_frame_times] = dt;
 	n_new_frame_times++;
 
-	if( n_new_frame_times < 2 ) 
+	if( n_new_frame_times < 2 )
 		snprintf( message, 1023, "New frame found %s", ctime(&tt) );
 	else
 		{
@@ -886,7 +886,7 @@ view_check_new_data( int unused )
 	if( view->variable->auto_set_no_range ) {
 		n_other = 1L;
 		for( i=0; i<view->variable->n_dims; i++ )
-			if( i != timelike_index ) 
+			if( i != timelike_index )
 				n_other *= view->variable->size[i];
 		data = (float *)malloc( sizeof(float)*n_other );
 		if( data == NULL ) {
@@ -934,7 +934,7 @@ view_check_new_data( int unused )
 						max = 0;
 					}
 				}
-				
+
 			view->variable->user_min = min;
 			view->variable->user_max = max;
 			set_range_labels( min, max );
@@ -957,7 +957,7 @@ view_check_new_data( int unused )
  * is the 'Y' axis, and the third is the 'X' axis.  If there is no valid
  * scan axis, return a zero length string ("") as that dimension.
  * If old_view is not NULL, then old_view is assumed to be the view which was
- * in use immediately preceeding a change of view; in that case, if 
+ * in use immediately preceeding a change of view; in that case, if
  * possible, use the same view as before.  The exception to this is if
  * the previous variable was only a 1-d variable; in that case we do not
  * want to limit ourselves to its restrictions if we can avoid them.
@@ -967,23 +967,23 @@ determine_scan_axes( View *view, NCVar *var, View *old_view )
 {
 	initial_determine_scan_axes( view, var );
 
-	if( view->scan_axis_id != -1 ) 
+	if( view->scan_axis_id != -1 )
 		view->plot_XY_axis = view->scan_axis_id;
-	else if( view->x_axis_id != -1 ) 
+	else if( view->x_axis_id != -1 )
 		view->plot_XY_axis = view->x_axis_id;
 	/* We can't do an XY plot of dimensions that have a count
 	 * of one.  In that case, try to set it to something else.
 	 */
 	if( *(view->variable->size + view->plot_XY_axis) == 1 ) {
-		if( (view->scan_axis_id != -1) &&  
+		if( (view->scan_axis_id != -1) &&
 		    (*(view->variable->size + view->scan_axis_id) > 1))
 			view->plot_XY_axis = view->scan_axis_id;
 
-		else if( (view->x_axis_id != -1) &&  
+		else if( (view->x_axis_id != -1) &&
 		    (*(view->variable->size + view->x_axis_id) > 1))
 			view->plot_XY_axis = view->x_axis_id;
 
-		else if( (view->y_axis_id != -1) &&  
+		else if( (view->y_axis_id != -1) &&
 		    (*(view->variable->size + view->y_axis_id) > 1))
 			view->plot_XY_axis = view->y_axis_id;
 		}
@@ -1008,7 +1008,7 @@ determine_scan_axes( View *view, NCVar *var, View *old_view )
 			view->scan_axis_id = -1;
 
 		/* Final sanity checks! */
-		if( (view->x_axis_id == -1) || 
+		if( (view->x_axis_id == -1) ||
 		    (view->y_axis_id == -1) ||
 		    (view->x_axis_id > view->variable->n_dims) ||
 		    (view->y_axis_id > view->variable->n_dims))
@@ -1034,13 +1034,13 @@ initial_determine_scan_axes( View *view, NCVar *var )
 		}
 
 	/* For now, just pick the last two to be the Y and X axes.
-	 */ 
+	 */
 	n_dims = stringlist_len( dimlist );
 	switch( n_dims ) {
 		case 1:
 			view->scan_axis_id = -1;
 			view->y_axis_id    = -1;
-			view->x_axis_id    = fi_dim_name_to_id( 
+			view->x_axis_id    = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dimlist->string );
@@ -1048,7 +1048,7 @@ initial_determine_scan_axes( View *view, NCVar *var )
 
 		case 2:
 			view->scan_axis_id = -1;
-			view->y_axis_id    = fi_dim_name_to_id( 
+			view->y_axis_id    = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dimlist->string );
@@ -1058,7 +1058,7 @@ initial_determine_scan_axes( View *view, NCVar *var )
 				exit(-1);
 				}
 			dimlist            = dimlist->next;
-			view->x_axis_id    = fi_dim_name_to_id( 
+			view->x_axis_id    = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dimlist->string );
@@ -1074,7 +1074,7 @@ initial_determine_scan_axes( View *view, NCVar *var )
 	 		* dims, because that one will be the 'time' dimension by netCDF
 	 		* standards.
 	 		*/
-			view->scan_axis_id = fi_dim_name_to_id( 
+			view->scan_axis_id = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dimlist->string );
@@ -1088,7 +1088,7 @@ initial_determine_scan_axes( View *view, NCVar *var )
 			/* Go to the second to the last entry */
 			while( ((Stringlist *)(dimlist->next))->next != NULL )
 				dimlist = dimlist->next;
-			view->y_axis_id    = fi_dim_name_to_id( 
+			view->y_axis_id    = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dimlist->string );
@@ -1098,7 +1098,7 @@ initial_determine_scan_axes( View *view, NCVar *var )
 				exit(-1);
 				}
 			dimlist            = dimlist->next;
-			view->x_axis_id    = fi_dim_name_to_id( 
+			view->x_axis_id    = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dimlist->string );
@@ -1130,7 +1130,7 @@ fill_view_data( View *v )
 	count = (size_t *)malloc( v->variable->n_dims * sizeof( size_t ));
 
 	/* By default, count of 1 for all uninteresting dimensions */
-	for( i=0; i<v->variable->n_dims; i++ ) 
+	for( i=0; i<v->variable->n_dims; i++ )
 		*(count+i) = 1;
 
 	/* Do full count of the X and Y axes so we can display the whole 2D field */
@@ -1173,7 +1173,7 @@ view_change_blowup( int delta, int redraw_flag, int view_var_is_valid )
 
 	/* Sequence of 'options.blowup' should be: ..., -4, -3, -2, 1, 2, 3, ... */
 	if( delta > 0 ) {
-		if( options.blowup + delta == 0 ) 
+		if( options.blowup + delta == 0 )
 			options.blowup = 2;
 		else if( options.blowup + delta == -1 )
 			options.blowup = 1;
@@ -1181,7 +1181,7 @@ view_change_blowup( int delta, int redraw_flag, int view_var_is_valid )
 			options.blowup += delta;
 		}
 	else if( delta < 0 ) {
-		if( options.blowup + delta == 0 ) 
+		if( options.blowup + delta == 0 )
 			options.blowup = -2;
 		else if( options.blowup + delta == -1 )
 			options.blowup = -3;
@@ -1189,7 +1189,7 @@ view_change_blowup( int delta, int redraw_flag, int view_var_is_valid )
 			options.blowup += delta;
 		}
 
-	if( options.blowup > 0 ) 
+	if( options.blowup > 0 )
 		snprintf( blowup_label, 31, "M X%1d", options.blowup );
 	else
 		snprintf( blowup_label, 31, "M 1/%1d", -options.blowup );
@@ -1220,7 +1220,7 @@ view_change_blowup( int delta, int redraw_flag, int view_var_is_valid )
 		 * is generated in such a case, which would automatically
 		 * trigger this call without us having to do it.
 		 */
-		if( changed_size < 0 ) 
+		if( changed_size < 0 )
 			view_draw( FALSE, FALSE );
 		}
 	in_set_cursor_normal();
@@ -1231,11 +1231,11 @@ view_change_blowup( int delta, int redraw_flag, int view_var_is_valid )
 redraw_ccontour()
 {
 printf( "got an expose event\n" );
-	view_draw( TRUE, FALSE ); 
+	view_draw( TRUE, FALSE );
 }
 
 /************************************************************************
- * This routine handles the case where the user presses the button 
+ * This routine handles the case where the user presses the button
  * which has the current dimension value, indicating that they want
  * it to change.
  */
@@ -1255,7 +1255,7 @@ view_change_cur_dim( char *dim_name, int modifier )
 		return;
 		}
 
-	if( view->data_status == VDS_EDITED ) 
+	if( view->data_status == VDS_EDITED )
 		view_data_edit_warn();
 
 	fileid = view->variable->first_file->id;
@@ -1293,7 +1293,7 @@ view_change_cur_dim( char *dim_name, int modifier )
 
 	place = *(view->var_place+dimid);
 
-	type  = fi_dim_value( view->variable, dimid, place, &new_dimval, temp_string, 
+	type  = fi_dim_value( view->variable, dimid, place, &new_dimval, temp_string,
 		&has_bounds, &bound_min, &bound_max, view->var_place );
 	if( type == NC_DOUBLE ) {
 		if( dim->timelike && options.t_conv ) {
@@ -1337,7 +1337,7 @@ view_set_scan_dims( void )
 	strcpy( scan_dim, dim_list->string );
 
 	/* Pop up the dialog box which asks for the user's selection */
-	message  = in_set_scan_dims( dim_list, cur_x_name, 
+	message  = in_set_scan_dims( dim_list, cur_x_name,
 				cur_y_name, &new_dim_list );
 	if( message == MESSAGE_CANCEL )
 		return;
@@ -1411,10 +1411,10 @@ view_set_axis( View *local_view, int dimension, char *new_dim_name )
 
 	switch( dimension ) {
 		case DIMENSION_X:
-			new_id = fi_dim_name_to_id( v->first_file->id, 
+			new_id = fi_dim_name_to_id( v->first_file->id,
 						v->name, new_dim_name );
-			if( options.debug ) 
-				fprintf( stderr, "setting dim X to %s\n", 
+			if( options.debug )
+				fprintf( stderr, "setting dim X to %s\n",
 						new_dim_name );
 			old_id = local_view->x_axis_id;
 			local_view->x_axis_id = new_id;
@@ -1422,10 +1422,10 @@ view_set_axis( View *local_view, int dimension, char *new_dim_name )
 			break;
 
 		case DIMENSION_Y:
-			new_id = fi_dim_name_to_id( v->first_file->id, 
+			new_id = fi_dim_name_to_id( v->first_file->id,
 						v->name, new_dim_name );
-			if( options.debug ) 
-				fprintf( stderr, "setting dim Y to %s\n", 
+			if( options.debug )
+				fprintf( stderr, "setting dim Y to %s\n",
 						new_dim_name );
 			old_id = local_view->y_axis_id;
 			local_view->y_axis_id = new_id;
@@ -1439,24 +1439,24 @@ view_set_axis( View *local_view, int dimension, char *new_dim_name )
 				return;
 				}
 			set_buttons( BUTTONS_ALL_ON );
-			new_id = fi_dim_name_to_id( v->first_file->id, 
+			new_id = fi_dim_name_to_id( v->first_file->id,
 						v->name, new_dim_name );
 			old_id = local_view->scan_axis_id;
 			local_view->scan_axis_id = new_id;
-			if( options.debug ) 
-				fprintf( stderr, "setting dim SCAN to %s\n", 
+			if( options.debug )
+				fprintf( stderr, "setting dim SCAN to %s\n",
 						new_dim_name );
 			break;
 
 		case DIMENSION_NONE:
-			new_id = fi_dim_name_to_id( v->first_file->id, 
+			new_id = fi_dim_name_to_id( v->first_file->id,
 						v->name, new_dim_name );
-			if( options.debug ) 
-				fprintf( stderr, "setting dim NONE to %s\n", 
+			if( options.debug )
+				fprintf( stderr, "setting dim NONE to %s\n",
 						new_dim_name );
 			return;
 		}
-				
+
 	if( old_id == new_id )
 		return;
 
@@ -1475,7 +1475,7 @@ alloc_view_storage( View *view )
 	if( view->data_status == VDS_EDITED )
 		view_data_edit_warn();
 	view->data_status = VDS_INVALID;
-		
+
 	if( view->data   != NULL )
 		free( view->data   );
 	if( view->pixels != NULL )
@@ -1505,8 +1505,8 @@ alloc_view_storage( View *view )
 	if( view->pixels == NULL ) {
 		fprintf( stderr, "ncview: can't allocate pixel array\n" );
 		fprintf( stderr, "variable name: %s\n", view->variable->name );
-		fprintf( stderr, "requested size: %ld x %ld\n", 
-				scaled_x_size, 
+		fprintf( stderr, "requested size: %ld x %ld\n",
+				scaled_x_size,
 				scaled_y_size );
 		fprintf( stderr, "x axis id:%d  y axis id:%d\n",
 			view->x_axis_id, view->y_axis_id );
@@ -1533,8 +1533,8 @@ view_set_range( void )
 	int	message, allvars;
 	NCVar	*cursor;
 
-	message = x_range( view->variable->user_min, view->variable->user_max, 
-		view->variable->global_min, view->variable->global_max, 
+	message = x_range( view->variable->user_min, view->variable->user_max,
+		view->variable->global_min, view->variable->global_max,
 		&new_min, &new_max, &allvars );
 	if( message == MESSAGE_CANCEL )
 		return;
@@ -1566,23 +1566,23 @@ set_range_labels( float min, float max )
 	char	*units, *var_long_name;
 	char	temp_label[4096], extra_label[4096];
 
-	units = fi_var_units( view->variable->first_file->id, 
+	units = fi_var_units( view->variable->first_file->id,
 				view->variable->name );
-	var_long_name = fi_long_var_name( view->variable->first_file->id, 
+	var_long_name = fi_long_var_name( view->variable->first_file->id,
 					view->variable->name );
 	if( units == NULL ) {
-		snprintf( temp_label, 4095, "displayed range: %g to %g (%g to %g shown)", 
-			view->variable->global_min, 
+		snprintf( temp_label, 4095, "displayed range: %g to %g (%g to %g shown)",
+			view->variable->global_min,
 			view->variable->global_max,
 			view->variable->user_min,
 			view->variable->user_max );
 		if( var_long_name != NULL )
-			snprintf( extra_label, 4095, "%s (%g to %g)", 
+			snprintf( extra_label, 4095, "%s (%g to %g)",
 					limit_string(var_long_name),
 					view->variable->user_min,
 					view->variable->user_max );
 		else
-			snprintf( extra_label, 4095, "%s (%g to %g)", 
+			snprintf( extra_label, 4095, "%s (%g to %g)",
 					limit_string(view->variable->name),
 					view->variable->user_min,
 					view->variable->user_max );
@@ -1591,21 +1591,21 @@ set_range_labels( float min, float max )
 		{
 		snprintf( temp_label, 4095, "displayed range: %g to %g %s (%g to %g shown)",
 			view->variable->global_min,
-			view->variable->global_max, 
+			view->variable->global_max,
 			limit_string(units),
 			view->variable->user_min,
 			view->variable->user_max );
 		if( var_long_name != NULL )
-			snprintf( extra_label, 4095, "%s (%g to %g %s)", 
+			snprintf( extra_label, 4095, "%s (%g to %g %s)",
 					limit_string(var_long_name),
 					view->variable->user_min,
-					view->variable->user_max, 
+					view->variable->user_max,
 					limit_string(units) );
 		else
-			snprintf( extra_label, 4095, "%s (%g to %g %s)", 
+			snprintf( extra_label, 4095, "%s (%g to %g %s)",
 					limit_string(view->variable->name),
 					view->variable->user_min,
-					view->variable->user_max, 
+					view->variable->user_max,
 					limit_string(units) );
 		}
 
@@ -1618,7 +1618,7 @@ set_range_labels( float min, float max )
 }
 
 /*************************************************************************
- * Reset the current data range based on the currently showing 
+ * Reset the current data range based on the currently showing
  * frame ONLY, rather than the global min and maxes.
  */
 	void
@@ -1674,7 +1674,7 @@ init_saveframes()
 		fprintf( stderr, "initializing saveframes:\n" );
 		fprintf( stderr, "	n_scan_entries: %ld\n", n_scan_entries );
 		fprintf( stderr, "	n_extra_frames: %ld\n", n_extra_frames );
-		fprintf( stderr, "	frame size: %ld\n", 
+		fprintf( stderr, "	frame size: %ld\n",
 				*(view->variable->size + view->x_axis_id) *
 				*(view->variable->size + view->y_axis_id) );
 		fprintf( stderr, "	total storage size:%ld\n", storage_size );
@@ -1775,7 +1775,7 @@ set_buttons( int to_state )
 		in_set_sensitive( BUTTON_FORWARD, 	  FALSE );
 		in_set_sensitive( BUTTON_FASTFORWARD, 	  FALSE );
 		break;
-		
+
 	    case BUTTONS_ALL_OFF:
 		in_set_sensitive( BUTTON_RESTART, 	  FALSE );
 		in_set_sensitive( BUTTON_REWIND, 	  FALSE );
@@ -1812,7 +1812,7 @@ re_determine_scan_axes( View *new_view, NCVar *new_var, View *old_view )
 	NCDim	*old_dim;
 
 	old_var = old_view->variable;
-	old_n_scannable_dims = stringlist_len( 
+	old_n_scannable_dims = stringlist_len(
 		fi_scannable_dims( old_var->first_file->id, old_var->name) );
 
 	for( i=0; i<old_n_scannable_dims; i++ ) {
@@ -1827,7 +1827,7 @@ re_determine_scan_axes( View *new_view, NCVar *new_var, View *old_view )
 			dim_index = fi_dim_name_to_id( new_var->first_file->id,
 					new_var->name, old_dim->name );
 			if( dim_index != -1 ) {
-				/* This dimension is in the new variable. 
+				/* This dimension is in the new variable.
 				 * Set to be the same dimension as it used to
 				 * be.
 				 */
@@ -1844,10 +1844,10 @@ re_determine_scan_axes( View *new_view, NCVar *new_var, View *old_view )
 			}
 		}
 }
-					
+
 /***************************************************************************
  * Set the current place for the variable, i.e., the index into the
- * scan dimensions at which we want to view it.  It is assumed if 
+ * scan dimensions at which we want to view it.  It is assumed if
  * old_view is not NULL then old_view is the view used previously to
  * the current one; in that case, try to set the new view to the same
  * place as the old view, if possible.
@@ -1879,7 +1879,7 @@ initial_set_scan_place( View *view, NCVar *var )
 
 	for( i=0; i<var->n_dims; i++ )
 		*(view->var_place+i) = 0L;
-		
+
 }
 
 /**************************************************************************************/
@@ -1892,7 +1892,7 @@ re_set_scan_place( View *new_view, NCVar *new_var, View *old_view )
 	size_t	old_place;
 
 	old_var = old_view->variable;
-	
+
 	for( i=0; i<new_var->n_dims; i++ ) {
 		/* dim_index is the dimension ID of the NEW dimension
 		 * in the OLD variable.  -1 if the new dimension does
@@ -1929,10 +1929,10 @@ calculate_blowup( View *view, NCVar *var, int val_to_set_to )
 
 	if( val_to_set_to != -99999 ) {
 		while( options.blowup > val_to_set_to ) {
-			view_change_blowup( -1, FALSE, view_var_is_valid );			
+			view_change_blowup( -1, FALSE, view_var_is_valid );
 			}
 		while( options.blowup < val_to_set_to ) {
-			view_change_blowup( 1, FALSE, view_var_is_valid );			
+			view_change_blowup( 1, FALSE, view_var_is_valid );
 			}
 		return;
 		}
@@ -1940,7 +1940,7 @@ calculate_blowup( View *view, NCVar *var, int val_to_set_to )
 	/* If the picture is too small, start out by blowing it up some */
 	x_size = *(var->size + view->x_axis_id);
 	y_size = *(var->size + view->y_axis_id);
-	while( (options.blowup*x_size < options.blowup_default_size) && 
+	while( (options.blowup*x_size < options.blowup_default_size) &&
 	       (options.blowup*y_size < options.blowup_default_size) ) {
 		view_change_blowup( 1, FALSE, view_var_is_valid );
 		}
@@ -1973,28 +1973,28 @@ draw_file_info( NCVar *var )
 
 	units = fi_var_units( var->first_file->id, var->name );
 	if( units == NULL ) {
-		if( (var->global_min != var->user_min) || (var->global_max != var->user_max)) 
-			snprintf( range_label, 255, "%g to %g (%g to %g shown)", 
-					var->global_min, 
+		if( (var->global_min != var->user_min) || (var->global_max != var->user_max))
+			snprintf( range_label, 255, "%g to %g (%g to %g shown)",
+					var->global_min,
 					var->global_max,
 					var->user_min,
 					var->user_max );
 		else
-			snprintf( range_label, 255, "%g to %g", 
+			snprintf( range_label, 255, "%g to %g",
 					var->global_min,
 					var->global_max );
 		}
 	else
 		{
 		if( (var->global_min != var->user_min) || (var->global_max != var->user_max))
-			snprintf( range_label, 255, "%g to %g %s (%g to %g shown)", 
-					var->global_min, 
+			snprintf( range_label, 255, "%g to %g %s (%g to %g shown)",
+					var->global_min,
 					var->global_max,
 					limit_string(units),
 					var->user_min,
 					var->user_max );
 		else
-			snprintf( range_label, 255, "%g to %g %s", 
+			snprintf( range_label, 255, "%g to %g %s",
 					var->global_min,
 					var->global_max,
 					limit_string(units) );
@@ -2002,13 +2002,13 @@ draw_file_info( NCVar *var )
 	snprintf( temp_label, 255, "displayed range: %s", range_label );
 	in_set_label( LABEL_DATA_EXTREMA, temp_label );
 
-	var_long_name = fi_long_var_name( view->variable->first_file->id, 
+	var_long_name = fi_long_var_name( view->variable->first_file->id,
 					view->variable->name );
 	if( var_long_name == NULL ) {
 		snprintf( temp_label, 255, "variable=%s", limit_string(view->variable->name) );
 		in_set_label( LABEL_SCANVAR_NAME, temp_label );
 		if( options.want_extra_info ) {
-			snprintf( temp_label, 255, "%s (%s)", limit_string(view->variable->name), 
+			snprintf( temp_label, 255, "%s (%s)", limit_string(view->variable->name),
 								range_label );
 			in_set_label( LABEL_CCINFO_1, temp_label );
 			}
@@ -2044,9 +2044,9 @@ redraw_dimension_info()
 
 	for( i=0; i<var->n_dims; i++ )
 		if( (d = *(var->dim+i)) != NULL ) {
-			please_flip = ((strcmp(d->name, cur_y_name)==0) && 
+			please_flip = ((strcmp(d->name, cur_y_name)==0) &&
 						options.invert_physical);
-			in_fill_dim_info( d, please_flip ); 
+			in_fill_dim_info( d, please_flip );
 			}
 
 	show_current_dim_values( view );
@@ -2070,7 +2070,7 @@ show_current_dim_values( View *view )
 
 	while( scannable_dims != NULL ) {
 		dim_name   = scannable_dims->string;
-		dimid      = fi_dim_name_to_id( 
+		dimid      = fi_dim_name_to_id(
 					var->first_file->id,
 					var->name,
 					dim_name );
@@ -2099,7 +2099,7 @@ label_dimensions( View *view )
 		in_indicate_active_dim( DIMENSION_X, dim_name );
 		in_set_cur_dim_value  ( dim_name, "-X-" );
 		}
-	
+
 	if( view->y_axis_id != -1 ) {
 		dim      = *(view->variable->dim+view->y_axis_id);
 		dim_name = dim->name;
@@ -2156,11 +2156,11 @@ view_report_position( int x, int y, unsigned int button_mask )
 	if( ! view )
 		return;
 
-	/* This can happen if we click on a 2-d variable, then click 
+	/* This can happen if we click on a 2-d variable, then click
 	 * on a 1-d variable, then move the pointer back over the
 	 * displayed colormap of the (old) 2-d variable.
 	 */
-	if( view->variable->effective_dimensionality == 1 ) 
+	if( view->variable->effective_dimensionality == 1 )
 		return;
 
 	if( view->data_status == VDS_INVALID ) {
@@ -2184,12 +2184,12 @@ view_report_position( int x, int y, unsigned int button_mask )
 	 */
 	if( !options.invert_physical )
 		data_y = y_size - data_y - 1;
-	
+
 	/* Get the value of the data field under the cursor */
 	val = *((float *)view->data + data_x + data_y*x_size);
 
-	/* Get the values of the X and Y indices. 
-	* 'type' is the data type of the dimension--can be float or character 
+	/* Get the values of the X and Y indices.
+	* 'type' is the data type of the dimension--can be float or character
 	*/
 	xdim = *(view->variable->dim + view->x_axis_id);
 	ydim = *(view->variable->dim + view->y_axis_id);
@@ -2198,13 +2198,13 @@ view_report_position( int x, int y, unsigned int button_mask )
 	y_is_mapped = (view->variable->dim_map_info[ view->y_axis_id ] != NULL);
 	if( 1 || x_is_mapped || y_is_mapped ) {
 		/* Get virtual position in all dims for this mouse cursor point */
-		for( i=0; i<view->variable->n_dims; i++ ) 
+		for( i=0; i<view->variable->n_dims; i++ )
 			virt_cursor_pos[i] = *(view->var_place+i);
 		virt_cursor_pos[ view->x_axis_id ] = data_x;
 		virt_cursor_pos[ view->y_axis_id ] = data_y;
 		}
 
-	type = fi_dim_value( view->variable, view->x_axis_id, data_x, &new_dimval, 
+	type = fi_dim_value( view->variable, view->x_axis_id, data_x, &new_dimval,
 			temp_string, &has_bounds, &bound_min, &bound_max, virt_cursor_pos );
 	if( type == NC_DOUBLE ) {
 		if( (xdim != NULL) && xdim->timelike && options.t_conv )
@@ -2215,7 +2215,7 @@ view_report_position( int x, int y, unsigned int button_mask )
 	else
 		strncpy( xdim_str, temp_string, 80 );
 
-	type = fi_dim_value( view->variable, view->y_axis_id, data_y, &new_dimval, 
+	type = fi_dim_value( view->variable, view->y_axis_id, data_y, &new_dimval,
 			temp_string, &has_bounds, &bound_min, &bound_max, virt_cursor_pos );
 	if( type == NC_DOUBLE ) {
 		if( (ydim != NULL) && ydim->timelike && options.t_conv )
@@ -2226,14 +2226,14 @@ view_report_position( int x, int y, unsigned int button_mask )
 	else
 		strncpy( ydim_str, temp_string, 80 );
 
-	snprintf( current_value_label, 79, "Current: (i=%1ld, j=%1ld) %g (x=%s, y=%s)\n", 
+	snprintf( current_value_label, 79, "Current: (i=%1ld, j=%1ld) %g (x=%s, y=%s)\n",
 				data_x, data_y, val, xdim_str, ydim_str );
 	in_set_label( LABEL_DATA_VALUE, current_value_label );
 }
 
 /**************************************************************************************/
 	static void
-view_construct_scalar_coord_str( char *str, int slen ) 
+view_construct_scalar_coord_str( char *str, int slen )
 {
 	size_t	ts;
 	FDBlist	*fdb;
@@ -2245,29 +2245,29 @@ view_construct_scalar_coord_str( char *str, int slen )
 
 	str[0] = '\0';
 
-	if( (view == NULL) || (view->variable == NULL) || (view->variable->n_scalar_coords == 0) 
+	if( (view == NULL) || (view->variable == NULL) || (view->variable->n_scalar_coords == 0)
 				|| (view->var_place == NULL)) {
 		return;
 		}
 
-	/* Get the time step (value of first dim, which must be the only 
-	 * dim that is virtually concatenated along different files). 
+	/* Get the time step (value of first dim, which must be the only
+	 * dim that is virtually concatenated along different files).
 	 */
 	ts = *(view->var_place);
 
 	/* The file associated with this time step */
 	fdb = view->variable->timestep_2_fdb[ts];
 
-	/* The integer position of this FDB on the var's list of FDBs. 
+	/* The integer position of this FDB on the var's list of FDBs.
 	 * We need this because the scalar data is cached by FDB, *not*
 	 * by the variable's timestep
 	 */
 	fdb_index = fdb->index;
 
-	/* See if we are displaying ALONG the time dim. If we are, then we 
+	/* See if we are displaying ALONG the time dim. If we are, then we
 	 * check to see if the scalar coords change along the time
 	 * dim. If they do, we just print <varies>. Otherwise, we print
-	 * the value as per usual 
+	 * the value as per usual
 	 */
 	displaying_along_time_dim = ((view->x_axis_id == 0) || (view->y_axis_id == 0));
 
@@ -2293,7 +2293,7 @@ view_construct_scalar_coord_str( char *str, int slen )
 		else
 			snprintf( tstr, 1020, "%s=%s %s", sdmi->coord_var_name, v1, funits );
 
-		if( isc != (nsc-1)) 
+		if( isc != (nsc-1))
 			strcat( tstr, "; " );
 
 		/* Only add on this new string if there is room for it */
@@ -2327,7 +2327,7 @@ view_report_position_vals( float xval, float yval, int plot_index )
 		                temp, yval );
 		}
 	else
-		snprintf( current_value_label, 79, "Current: x=%g, y=%g", 
+		snprintf( current_value_label, 79, "Current: x=%g, y=%g",
 				xval, yval );
 	in_set_label( LABEL_DATA_VALUE, current_value_label );
 }
@@ -2346,7 +2346,7 @@ set_dataedit_place()
 		}
 
 	in_query_pointer_position( &x, &y );
-	if( (x < 0) || (y < 0) ) 
+	if( (x < 0) || (y < 0) )
 		return;
 
 	mouse_xy_to_data_xy( x, y, options.blowup, &data_x, &data_y );
@@ -2367,7 +2367,7 @@ set_dataedit_place()
 	 */
 	if( !options.invert_physical )
 		data_y = y_size - data_y - 1;
-	
+
 	index =  data_x + orig_data_y*x_size;
 	in_set_edit_place( index, data_x, orig_data_y, x_size, y_size );
 }
@@ -2402,7 +2402,7 @@ set_min_from_curdata()
 	 */
 	if( !options.invert_physical )
 		data_y = y_size - data_y - 1;
-	
+
 	/* Get the value of the data field under the cursor */
 	val = *((float *)view->data + data_x + data_y*x_size);
 
@@ -2444,7 +2444,7 @@ set_max_from_curdata()
 	 */
 	if( !options.invert_physical )
 		data_y = y_size - data_y - 1;
-	
+
 	/* Get the value of the data field under the cursor */
 	val = *((float *)view->data + data_x + data_y*x_size);
 
@@ -2506,7 +2506,7 @@ view_change_dat( size_t index, float new_val )
 	if( !options.invert_physical )
 		y = y_size - y - 1;
 
-	printf( "changed (%3ld,%3ld) from %9f to %9f\n", x, y, 
+	printf( "changed (%3ld,%3ld) from %9f to %9f\n", x, y,
 		*((float *)view->data + x + (x_size)*y), new_val );
 
 	*((float *)view->data + x + (x_size)*y) = new_val;
@@ -2537,7 +2537,7 @@ view_data_edit_dump( void )
 		}
 
 	strcpy( filename, "dump.data" );
-	
+
 	message = in_dialog( "Filename to dump data to:", filename, TRUE );
 	if( message == MESSAGE_OK ) {
 		ncid = nccreate( filename, NC_CLOBBER );
@@ -2555,7 +2555,7 @@ view_data_edit_dump( void )
 		dims[1] = x_dimid;
 		varid = ncvardef( ncid, var_name, NC_FLOAT, 2, dims );
 
-		ncattput( ncid, varid, "missing_value", NC_FLOAT, 1, 
+		ncattput( ncid, varid, "missing_value", NC_FLOAT, 1,
 					&view->variable->fill_value );
 		ncendef ( ncid );
 
@@ -2579,7 +2579,7 @@ view_data_edit_warn()
 	int	message;
 
 	message = in_dialog( "Warning!  Data edits will be lost unless you save them now.\nSave them now?", NULL, TRUE );
-	if( message == MESSAGE_CANCEL ) 
+	if( message == MESSAGE_CANCEL )
 		return;
 
 	view_data_edit_dump();
@@ -2588,7 +2588,7 @@ view_data_edit_warn()
 /**************************************************************************************
  * Plot all the data along the plot_XY_axis for this (X,Y) position.  This is
  * the routine called when the user selects an (X,Y) position by clicking on
- * the 2-D color contour window.  
+ * the 2-D color contour window.
  */
 	void
 plot_XY()
@@ -2655,7 +2655,7 @@ plot_XY()
 	 */
 	for( i=0; i<view->variable->n_dims; i++ ) {
 		view->plot_XY_position[ view->plot_XY_nlines-1 ][i] = *(start+i);
-		if( options.debug ) 
+		if( options.debug )
 			fprintf( stderr, "Setting position for line %d, dim %d: %ld\n",
 				view->plot_XY_nlines-1, i, *(start+i) );
 		}
@@ -2663,7 +2663,7 @@ plot_XY()
 	*(start+X_axis) = 0L;
 	*(count+X_axis) = n;
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "plot_XY: about to call plot_XY_sc\n" );
 	plot_XY_sc( start, count );
 
@@ -2689,7 +2689,7 @@ view_set_XY_plot_axis( String label )
 		if( (*(view->variable->dim + i) != NULL) &&
 		    (strcmp( (*(view->variable->dim + i))->name, label) == 0) )
 			dim_to_plot = i;
-	
+
 	if( dim_to_plot == -1 ) {
 		snprintf( message, 1023, "Error: I can't find dimension %s in variable %s!\n",
 			label, view->variable->name );
@@ -2715,7 +2715,7 @@ view_set_XY_plot_axis( String label )
 			}
 		*(start+view->plot_XY_axis) = 0L;
 		*(count+view->plot_XY_axis) = *(view->variable->size + view->plot_XY_axis);
-		if( options.debug ) 
+		if( options.debug )
 			fprintf( stderr, "view_set_XY_plot_axis: about to call plot_XY_sc\n" );
 		plot_XY_sc( start, count );
 		}
@@ -2781,12 +2781,12 @@ plot_XY_sc( size_t *start, size_t *count )
 		return;
 		}
 	dim_name = (*(view->variable->dim + dim_to_plot))->name;
-		
+
         n = *(view->variable->size + dim_to_plot);
 
-	if( plot_XY_xvals != NULL ) 
+	if( plot_XY_xvals != NULL )
 		free( plot_XY_xvals );
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "about to malloc %ld floats (x vals)\n", n );
 	plot_XY_xvals = (double *)malloc(n*sizeof(double));
 	if( plot_XY_xvals == NULL ) {
@@ -2797,7 +2797,7 @@ plot_XY_sc( size_t *start, size_t *count )
 
 	if( plot_XY_yvals != NULL )
 		free( plot_XY_yvals );
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "about to malloc %ld floats (y vals)\n", n );
 	plot_XY_yvals = (double *)malloc(n*sizeof(double));
 	if( plot_XY_yvals == NULL ) {
@@ -2822,9 +2822,9 @@ plot_XY_sc( size_t *start, size_t *count )
 			virt_cursor_place[i] = *(view->var_place + i);
 		virt_cursor_place[dim_to_plot] = i_size;
 
-		type = fi_dim_value( view->variable, dim_to_plot, i_size, &temp_double, 
+		type = fi_dim_value( view->variable, dim_to_plot, i_size, &temp_double,
 				temp_string, &has_bounds, &bound_min, &bound_max, virt_cursor_place );
-		if( type == NC_DOUBLE ) 
+		if( type == NC_DOUBLE )
 			*(plot_XY_xvals+i_size) = temp_double;
 		else
 			*(plot_XY_xvals+i_size) = (double)i_size;
@@ -2833,7 +2833,7 @@ plot_XY_sc( size_t *start, size_t *count )
 	 * the dimvar has only fill values, then the plotting widget
 	 * crashes.  Hack to avoid this problem.
 	 */
-	if( *plot_XY_xvals == *(plot_XY_xvals+n-1) ) 
+	if( *plot_XY_xvals == *(plot_XY_xvals+n-1) )
 		for(i=0; i<n; i++ )
 			*(plot_XY_xvals+i) = (double)i;
 
@@ -2862,7 +2862,7 @@ plot_XY_sc( size_t *start, size_t *count )
 		}
 	free( tmp_yvals );
 	if( n != j ) {
-		printf( "Note: %ld missing values were eliminated along axis \"%s\"; index= ", 
+		printf( "Note: %ld missing values were eliminated along axis \"%s\"; index= ",
 							n-j, dim_name );
 		for( k=0; k<(n_missing_eliminated<n_misplace?n_missing_eliminated:n_misplace); k++ )
 			printf( " %ld", misplace_index[k]+1 );
@@ -2893,16 +2893,16 @@ plot_XY_sc( size_t *start, size_t *count )
 	y_min    = 1.e35;
 	y_max    = -1.e35;
 	for( i=1; i<n; i++ ) {
-		if( *(plot_XY_yvals+i) != *plot_XY_yvals ) 
+		if( *(plot_XY_yvals+i) != *plot_XY_yvals )
 			all_same = FALSE;
-		if( *(plot_XY_yvals+i) < y_min ) 
+		if( *(plot_XY_yvals+i) < y_min )
 			y_min = *(plot_XY_yvals+i);
-		if( *(plot_XY_yvals+i) > y_max ) 
+		if( *(plot_XY_yvals+i) > y_max )
 			y_max = *(plot_XY_yvals+i);
 		}
 	if( all_same ) {
 		in_set_cursor_normal();
-		snprintf( message, 511, "All values are identical: %f\n", *plot_XY_yvals ); 
+		snprintf( message, 511, "All values are identical: %f\n", *plot_XY_yvals );
 		in_error( message );
 		return;
 		}
@@ -2917,7 +2917,7 @@ plot_XY_sc( size_t *start, size_t *count )
 		}
 
 	/* Get the overall plot title */
-	if( (long_name = fi_long_var_name( view->variable->first_file->id, 
+	if( (long_name = fi_long_var_name( view->variable->first_file->id,
 				view->variable->name )) != NULL )
 		strncpy( title, long_name, 200 );
 	else
@@ -2931,7 +2931,7 @@ plot_XY_sc( size_t *start, size_t *count )
 	legend[0] = '(';
 	legend[1] = '\0';
 	have_done_one = FALSE;
-	for( i=0; i<view->variable->n_dims; i++ ) 
+	for( i=0; i<view->variable->n_dims; i++ )
 		/* if( (i != dim_to_plot) && ((*(start+i) != 0) || (*(count+i) != 1))) { */
 		if( (i != dim_to_plot) && (*(view->variable->dim+i) != NULL)) {
 			if( have_done_one )
@@ -2941,7 +2941,7 @@ plot_XY_sc( size_t *start, size_t *count )
 			}
 	strcat( legend, ") = (" );
 	have_done_one = FALSE;
-	for( i=0; i<view->variable->n_dims; i++ ) 
+	for( i=0; i<view->variable->n_dims; i++ )
 		if( (i != dim_to_plot) && (*(view->variable->dim+i) != NULL)) {
 			if( have_done_one )
 				strcat( legend, ", " );
@@ -2973,7 +2973,7 @@ plot_XY_sc( size_t *start, size_t *count )
 		 * by making sure the size > 1.
 		 */
 		if( (*(view->variable->dim+i) != NULL) && (i != dim_to_plot)
-		    && (*(view->variable->size+i) > 1)) 
+		    && (*(view->variable->size+i) > 1))
 			stringlist_add_string( &dimlist, (*(view->variable->dim + i))->name, NULL, SLTYPE_NULL );
 
 	if( options.debug ) {
@@ -2984,19 +2984,19 @@ plot_XY_sc( size_t *start, size_t *count )
 		fprintf( stderr, "     ytitle=%s\n", y_axis_title );
 		fprintf( stderr, "     title =%s\n", title );
 		}
-	plot_index = in_popup_XY_graph( n, dim_to_plot, plot_XY_xvals, 
-			plot_XY_yvals, x_axis_title, y_axis_title, 
+	plot_index = in_popup_XY_graph( n, dim_to_plot, plot_XY_xvals,
+			plot_XY_yvals, x_axis_title, y_axis_title,
 			title, legend, dimlist );
-	
+
 	/* Save the X dimension for this plot, so that we can later format
 	 * that dim's time values if requested (while the mouse is inside
 	 * that plot's window).
 	 */
-	if( plot_index != -1 ) 
+	if( plot_index != -1 )
 		plot_XY_dim[plot_index] = *(view->variable->dim + dim_to_plot);
 
 	in_set_cursor_normal();
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "plot_XY_sc: leaving\n" );
 }
 
@@ -3018,7 +3018,7 @@ view_plot_XY_fmt_x_val( float val, int dimindex, char *s, size_t s_len )
 view_information( void )
 {
 	in_display_stuff( netcdf_att_string( view->variable->first_file->id,
-						view->variable->name ),  
+						view->variable->name ),
 			view->variable->name );
 }
 
@@ -3048,7 +3048,7 @@ view_get_scaled_size( int blowup, size_t old_nx, size_t old_ny, size_t *new_nx, 
 	d_old_nx = (double)old_nx;
 	d_old_ny = (double)old_ny;
 	d_blowup = (double)(-blowup);
-	
+
 	d_new_nx = ceil( d_old_nx/d_blowup );
 	d_new_ny = ceil( d_old_ny/d_blowup );
 
@@ -3069,7 +3069,7 @@ mouse_xy_to_data_xy( int mouse_x, int mouse_y, int blowup, size_t *data_x, size_
 		return;
 		}
 
-	
+
 	b = -blowup;
 	*data_x = mouse_x * b + (int)((double)b/2.0);
 	*data_y = mouse_y * b + (int)((double)b/2.0);
@@ -3087,18 +3087,18 @@ view_data_has_missing( View *v )
 	if( (v == NULL) || (v->variable == NULL))
 		return(TRUE);
 
-	if( v->x_axis_id < 0 ) 
+	if( v->x_axis_id < 0 )
 		return(TRUE);
 	nx = *(v->variable->size + v->x_axis_id);
 
-	if( v->y_axis_id < 0 ) 
+	if( v->y_axis_id < 0 )
 		ny = 1;
 	else
 		ny = *(v->variable->size + v->y_axis_id);
 
 	for( i=0; i<nx*ny; i++ ) {
 		dat = *((float *)(v->data) + i);
-		if( close_enough( dat, v->variable->fill_value) || (dat == FILL_FLOAT)) 
+		if( close_enough( dat, v->variable->fill_value) || (dat == FILL_FLOAT))
 			return(TRUE);
 		}
 
@@ -3135,7 +3135,7 @@ view_change_transform( int delta )
 void view_recompute_colorbar( void )
 {
 	/* The user might ask to rearrange colormaps before any
-	 * variable is selected. In that event, return 
+	 * variable is selected. In that event, return
 	 * immediately
 	 */
 	if( (view == NULL) || (view->variable == NULL))
@@ -3163,7 +3163,7 @@ view_calc_minval_float( float *arr, size_t n )
 {
 	float	retval=1.e30;
 	size_t	i;
-	
+
 	for( i=0L; i<n; i++ )
 		if( arr[i] < retval )
 			retval = arr[i];
@@ -3176,7 +3176,7 @@ view_calc_maxval_float( float *arr, size_t n )
 {
 	float	retval=-1.e30;
 	size_t	i;
-	
+
 	for( i=0L; i<n; i++ )
 		if( arr[i] > retval )
 			retval = arr[i];
@@ -3190,7 +3190,7 @@ strip_trailing_zeros( char *s )
 	int	i;
 
 	i = strlen(s) - 1;
-	while( (i > 0 ) && (s[i] == '0' ) && (s[i-1] != '.')) 
+	while( (i > 0 ) && (s[i] == '0' ) && (s[i-1] != '.'))
 		s[i--] = '\0';
 }
 

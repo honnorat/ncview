@@ -1,5 +1,5 @@
 /*
-	This first part is taken directly from the PMEL EPIC library, which has the 
+	This first part is taken directly from the PMEL EPIC library, which has the
 	following contact information attached:
 
 	--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ epic_istime0( int fileid, NCVar *v, NCDim *d )
 	if( (d->units != NULL) && strncmp( d->units, "True Julian Day", 15 ) == 0 ) {
 		return( 1 );
 		}
-	
+
 	return( 0 );
 }
 
@@ -77,7 +77,7 @@ epic_calc_tgran( int fileid, NCDim *d )
 	 * just fake it by indicating day-like granularity.  Will
 	 * have to be fixed at some point.
 	 */
-	return( TGRAN_DAY );	
+	return( TGRAN_DAY );
 }
 
 /*************************************************************************/

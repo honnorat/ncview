@@ -16,7 +16,7 @@ static int stringlist_add_string_common( Stringlist **list, Stringlist **new_el,
 static int stringlist_new_sl( Stringlist **el );
 static int stringlist_check_args( Stringlist **list, char *new_string, void *aux, int sltype );
 static int stringlist_copy_name( Stringlist *new_el, char *new_string );
-static int stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, int *string1, 
+static int stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, int *string1,
 		int *aux_type0, int *aux_type1, int *aux_val0, int *aux_val1 );
 static int stringlist_line_to_sl( char *line, int lineno, Stringlist **sl );
 static int stringlist_read_from_file_v1( Stringlist **sl, FILE *fin, int nlines_in_header, int debug );
@@ -35,7 +35,7 @@ stringlist_match_string_exact( Stringlist *list, char *str )
 
 	cursor = list;
 	while( cursor != NULL ) {
-		if( strcmp( cursor->string, str ) == 0 ) 
+		if( strcmp( cursor->string, str ) == 0 )
 			return( cursor );
 		cursor = cursor->next;
 		}
@@ -46,7 +46,7 @@ stringlist_match_string_exact( Stringlist *list, char *str )
 /**************************************************************************************
  * Adds the given string and auxilliary data to the list.
  * The first time this is called, assuming you want to make a new stringlist, pass
- * with *list == NULL. This will make a new stringlist with the passed string (and 
+ * with *list == NULL. This will make a new stringlist with the passed string (and
  * aux info) as the first element of the new string.
  * Returns 0 on success, -1 on error (usually inability to allocate memory)
  */
@@ -100,7 +100,7 @@ stringlist_add_string( Stringlist **list, char *new_string, void *aux, int sltyp
 }
 
 /*******************************************************************************
- * Adds the given string to the list, and returns a pointer to the 
+ * Adds the given string to the list, and returns a pointer to the
  * new list element, with alphabetic ordering.
  * was: add_to_stringlist_ordered
  * Returns 0 on success, -1 on error (usually inability to allocate memory)
@@ -161,7 +161,7 @@ stringlist_add_string_ordered( Stringlist **list, char *new_string, void *aux, i
 
 	return( 0 );
 }
-		
+
 /**************************************************************************************
  * Allocates space in the stringlist element for the auxilliary data, and copies it over
  * Returns 0 on success, -1 on error (usually inability to allocate memory)
@@ -189,7 +189,7 @@ stringlist_copy_aux( Stringlist *new_el, void *aux, int sltype )
 	if( sltype == SLTYPE_NULL )
 		return(0);	/* Note: new elements are initialized with aux==NULL and sltype==NULL */
 
-	if( aux == NULL ) 
+	if( aux == NULL )
 		return(0);	/* Note: new elements are initialized with aux==NULL and sltype==NULL */
 
 	switch( sltype ) {
@@ -206,7 +206,7 @@ stringlist_copy_aux( Stringlist *new_el, void *aux, int sltype )
 		case SLTYPE_STRING:
 			slen = strlen( (char *)aux );
 			if( slen > STRINGLIST_MAX_LEN ) {
-				fprintf( stderr, "stringlist_copy_aux: error, passed string is too long! Max allowed: %d\n", 
+				fprintf( stderr, "stringlist_copy_aux: error, passed string is too long! Max allowed: %d\n",
 					STRINGLIST_MAX_LEN );
 				return( -2 );
 				}
@@ -262,7 +262,7 @@ stringlist_add_string_common( Stringlist **list, Stringlist **new_el, char *new_
 		}
 
 	/* Make new stringlist element */
-	if( (err = stringlist_new_sl( new_el )) < 0 ) 
+	if( (err = stringlist_new_sl( new_el )) < 0 )
 		return( err );
 
 	/* Copy name over to new element */
@@ -283,7 +283,7 @@ stringlist_add_string_common( Stringlist **list, Stringlist **new_el, char *new_
 /*******************************************************************************
  * Concatenate one stringlist onto the end of another stringlist. I.e., if
  * dest is a stringlist, and src is a stringlist, this returns (dest, src)
- * This COPIES data to a new entry on the dest list, so if you are done with 
+ * This COPIES data to a new entry on the dest list, so if you are done with
  * the src list, it is OK to delete it (and should be deleted).
  *
  * Returns 0 on success, -1 on error (usually inability to allocate memory)
@@ -312,7 +312,7 @@ stringlist_cat( Stringlist **dest, Stringlist **src )
 		return( -47 );
 		}
 
-	if( *src == NULL ) 
+	if( *src == NULL )
 		return(0);	/* Nothing to do */
 	if( (*src)->magic != SL_MAGIC ) {
 		if( (*src)->magic == SL_BAD_MAGIC ) {
@@ -325,7 +325,7 @@ stringlist_cat( Stringlist **dest, Stringlist **src )
 
 	sl = *src;
 	while( sl != NULL ) {
-		if( (err = stringlist_add_string( dest, sl->string, sl->aux, sl->sltype )) < 0 ) 
+		if( (err = stringlist_add_string( dest, sl->string, sl->aux, sl->sltype )) < 0 )
 			return( err );
 		sl = sl->next;
 		}
@@ -334,7 +334,7 @@ stringlist_cat( Stringlist **dest, Stringlist **src )
 }
 
 /*******************************************************************************
- * Allocate space for a new Stringlist element 
+ * Allocate space for a new Stringlist element
  * was: new_stringlist
  * Returns 0 on success, -1 on error
  */
@@ -386,7 +386,7 @@ stringlist_dump( Stringlist *s )
 		printf( "ADDR=%ld ", (long)s );
 		printf( "PREV=%ld NEXT=%ld ", (long)s->prev, (long)s->next );
 		printf( "INDEX=%d: ", s->index );
-		if( s->string == NULL ) 
+		if( s->string == NULL )
 			printf( "(null string) " );
 		else
 			printf( "\"%s\" ", s->string );
@@ -483,7 +483,7 @@ stringlist_check_args( Stringlist **list, char *new_string, void *aux, int sltyp
 		return(-1);
 		}
 
-	if( (sltype != SLTYPE_NULL)   && 
+	if( (sltype != SLTYPE_NULL)   &&
 	    (sltype != SLTYPE_INT)    &&
 	    (sltype != SLTYPE_STRING) &&
 	    (sltype != SLTYPE_FLOAT)  &&
@@ -505,7 +505,7 @@ stringlist_check_args( Stringlist **list, char *new_string, void *aux, int sltyp
  * Returns 0 on success, -1 on error (usually inability to allocate memory)
  */
 	static int
-stringlist_copy_name( Stringlist *new_el, char *new_string ) 
+stringlist_copy_name( Stringlist *new_el, char *new_string )
 {
 	if( new_el == NULL ) {
 		fprintf( stderr, "stringlist: error, trying to copy a string to a NULL stringlist element!\n" );
@@ -542,17 +542,17 @@ stringlist_copy_name( Stringlist *new_el, char *new_string )
 }
 
 /**************************************************************************************
- * Returns 0 on success, -1 on error 
+ * Returns 0 on success, -1 on error
  * Note this allocates all space needed for the stringlist, it must not be pre-allocated
  *
  * Structure of input file:
  *
  * integer (index #)          "string"         aux_type    aux_value
- * 
+ *
  * where aux_value will be in "quotes" if aux_type == STRING
  */
  	int
- stringlist_read_from_file( Stringlist **sl, FILE *fin ) 
+ stringlist_read_from_file( Stringlist **sl, FILE *fin )
  {
  	char		line[4001];
 	int		err, version_number, lineno, debug;
@@ -601,7 +601,7 @@ stringlist_copy_name( Stringlist *new_el, char *new_string )
 
 			version_number = *((int *)(header_el->aux));
 			if( debug ) printf( "stringlist_read_from_file: save file version number %d\n", version_number );
-			if( version_number == 1 ) 
+			if( version_number == 1 )
 				return( stringlist_read_from_file_v1( sl, fin, lineno, debug ));
 			else
 				{
@@ -618,7 +618,7 @@ stringlist_copy_name( Stringlist *new_el, char *new_string )
  * Reads a version 1 stringlist save file
  */
  	static int
- stringlist_read_from_file_v1( Stringlist **sl, FILE *fin, int nlines_in_header, int debug ) 
+ stringlist_read_from_file_v1( Stringlist **sl, FILE *fin, int nlines_in_header, int debug )
  {
 	char		line[4001];
 	int		err, lineno;
@@ -638,12 +638,12 @@ stringlist_copy_name( Stringlist *new_el, char *new_string )
 
 			new_el = NULL; 	/* This flags that we want to make a brand new element, and alloc space for it */
 
-			if( (err = stringlist_line_to_sl( line, lineno+nlines_in_header, &new_el )) != 0 ) 
+			if( (err = stringlist_line_to_sl( line, lineno+nlines_in_header, &new_el )) != 0 )
 				return( err );
 
 			/* Now add this new information to our stringlist */
 			stringlist_cat( sl, &new_el );
-			
+
 			/* Free storage associated with temp element */
 			if( (err = stringlist_delete_single_element_inner( new_el )) != 0 ) {
 				fprintf( stderr, "stringlist_read_from_file_v1: error trying to free tmp storage\n" );
@@ -666,19 +666,19 @@ stringlist_line_to_sl( char *line, int lineno, Stringlist **retval )
 {
 	int	ival, debug, err, index0, index1, string0, string1, aux_type0, aux_type1, aux_val0, aux_val1,
 		nfields;
-	char	t_index[4000], t_string[4000], t_aux_type[4000], t_aux_val[4000], 
+	char	t_index[4000], t_string[4000], t_aux_type[4000], t_aux_val[4000],
 		*t_string_ue, *t_aux_val_ue;
 	float	fval;
 
 	debug = 0;
 
-	/* Get indices (into the string char array) of the 
+	/* Get indices (into the string char array) of the
 	 * first and last positions of each of the four
 	 * elements (index_num, string, aux_type, and aux_value)
 	 */
-	err = stringlist_get_tok_indices( line, &index0, &index1, 
-			&string0,   &string1, 
-			&aux_type0, &aux_type1, 
+	err = stringlist_get_tok_indices( line, &index0, &index1,
+			&string0,   &string1,
+			&aux_type0, &aux_type1,
 			&aux_val0,  &aux_val1 );
 	if( err != 0 ) {
 		fprintf( stderr, "stringlist_read_from_file: error, could not parse information on input file line %d\n", lineno+1 );
@@ -746,7 +746,7 @@ stringlist_line_to_sl( char *line, int lineno, Stringlist **retval )
 	else if( strcmp( t_aux_type, "INT" ) == 0 ) {
 		nfields = sscanf( t_aux_val, "%d", &ival );
 		if( nfields != 1 ) {
-			fprintf( stderr, "stringlist_read_from_file: error, while reading line %d could not get a single integer from token >%s<\n", 
+			fprintf( stderr, "stringlist_read_from_file: error, while reading line %d could not get a single integer from token >%s<\n",
 				lineno+1, t_aux_val );
 			return( -30 );
 			}
@@ -759,7 +759,7 @@ stringlist_line_to_sl( char *line, int lineno, Stringlist **retval )
 	else if( strcmp( t_aux_type, "FLOAT" ) == 0 ) {
 		nfields = sscanf( t_aux_val, "%f", &fval );
 		if( nfields != 1 ) {
-			fprintf( stderr, "stringlist_read_from_file: error, while reading line %d could not get a single float from token >%s<\n", 
+			fprintf( stderr, "stringlist_read_from_file: error, while reading line %d could not get a single float from token >%s<\n",
 				lineno+1, t_aux_val );
 			return( -31 );
 			}
@@ -785,7 +785,7 @@ stringlist_line_to_sl( char *line, int lineno, Stringlist **retval )
 
 	else
 		{
-		fprintf( stderr, "stringlist_read_from_file: encountered unhandled type: %s\n", 
+		fprintf( stderr, "stringlist_read_from_file: encountered unhandled type: %s\n",
 			t_aux_type );
 		return( -37 );
 		}
@@ -797,8 +797,8 @@ stringlist_line_to_sl( char *line, int lineno, Stringlist **retval )
 
 /**************************************************************************************
  */
-	static int 
-stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, int *string1, 
+	static int
+stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, int *string1,
 		int *aux_type0, int *aux_type1, int *aux_val0, int *aux_val1 )
 {
 	int	cursor, slen, aux_val_is_string;
@@ -821,7 +821,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 	*index0 = cursor;
 
 	/* Advance to next white space */
-	while( (cursor < slen) && (! my_isblank(line[cursor]))) 
+	while( (cursor < slen) && (! my_isblank(line[cursor])))
 		cursor++;
 	/* cursor is now white space */
 	if( cursor == slen ) {
@@ -836,7 +836,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 		cursor++;
 	if( cursor == slen ) {
 		fprintf( stderr, "stringlist_get_tok_indices: error reading from file, does line have ONLY the index number, no string?\n" );
-		return(-1);	
+		return(-1);
 		}
 	/* cursor is now NOT white space, needs to be a quote sign (") */
 	if( line[cursor] != '"' ) {
@@ -853,7 +853,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 		cursor++;
 	if( cursor == slen ) {
 		fprintf( stderr, "stringlist_get_tok_indices: error reading from file, does string not end with a quote sign?\n" );
-		return(-1);	
+		return(-1);
 		}
 	/* cursor is now on an NOT escaped quote */
 	*string1 = cursor - 1;
@@ -871,7 +871,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 	*aux_type0 = cursor;
 
 	/* Advance to next white space */
-	while( (cursor < slen) && (! my_isblank(line[cursor]))) 
+	while( (cursor < slen) && (! my_isblank(line[cursor])))
 		cursor++;
 	/* cursor is now white space */
 	if( cursor == slen ) {
@@ -881,7 +881,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 	*aux_type1 = cursor-1;
 
 	/* ========== GET AUX VAL ========
-	 * If it starts with a quote, we assume it's a string 
+	 * If it starts with a quote, we assume it's a string
 	 * and go to the matching unescaped quote.
 	 * Otherwise, just go to first whitespace or we
 	 * run out of string.
@@ -904,7 +904,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 			cursor++;
 		if( cursor == slen ) {
 			fprintf( stderr, "stringlist_get_tok_indices: error reading from file, does the string-valued aux_val NOT end with a quote?\n" );
-			return(-1);	
+			return(-1);
 			}
 		/* cursor is now on an NOT escaped quote */
 		*aux_val1 = cursor - 1;
@@ -912,7 +912,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 	else
 		{
 		*aux_val0 = cursor;
-		while( (cursor < slen) && (! my_isblank(line[cursor]))) 
+		while( (cursor < slen) && (! my_isblank(line[cursor])))
 			cursor++;
 		/* cursor is now white space */
 		*aux_val1 = cursor-1;
@@ -925,7 +925,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
  * Returns 0 on success, -1 on error (usually inability to allocate memory)
  */
  	int
- stringlist_write_to_file( Stringlist *sl, FILE *fout ) 
+ stringlist_write_to_file( Stringlist *sl, FILE *fout )
  {
 	Stringlist *cursor, *header;
 	int	err, itmp;
@@ -962,10 +962,10 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 		}
 
 	/* Write header to file */
-	if( (err = stringlist_write_single_element_to_file( header, fout )) != 0 ) 
+	if( (err = stringlist_write_single_element_to_file( header, fout )) != 0 )
 		return( err );
 
-	/* Delete header. Cheat here by using the quicker locally-known call to delete 
+	/* Delete header. Cheat here by using the quicker locally-known call to delete
 	 * just a single element
 	 */
 	if( (err = stringlist_delete_single_element_inner( header )) != 0 )
@@ -984,7 +984,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 				(char *)(cursor->aux) );
 			return( -70 );
 			}
-		if( (err = stringlist_write_single_element_to_file( cursor, fout )) != 0 ) 
+		if( (err = stringlist_write_single_element_to_file( cursor, fout )) != 0 )
 			return( err );
 		cursor = cursor->next;
 		}
@@ -993,10 +993,10 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
 }
 
 /**************************************************************************************
- * Returns 0 on success, -1 on error 
+ * Returns 0 on success, -1 on error
  */
  	static int
- stringlist_write_single_element_to_file( Stringlist *sl, FILE *fout ) 
+ stringlist_write_single_element_to_file( Stringlist *sl, FILE *fout )
  {
 	char	*string_esc;	/* Escaped version of the string */
 
@@ -1055,7 +1055,7 @@ stringlist_get_tok_indices( char *line, int *index0, int *index1, int *string0, 
  * element.
  */
 	static int
-stringlist_delete_single_element_inner( Stringlist *sl ) 
+stringlist_delete_single_element_inner( Stringlist *sl )
 {
 	if( sl == NULL ) {
 		fprintf( stderr, "stringlist_delete_single_element_inner: error, passed a NULL element\n" );
@@ -1074,11 +1074,11 @@ stringlist_delete_single_element_inner( Stringlist *sl )
 	/* Mark this element as deleted */
 	sl->magic = SL_BAD_MAGIC;
 
-	if( sl->string != NULL ) 
+	if( sl->string != NULL )
 		free( sl->string );
 
 	if( sl->sltype == SLTYPE_STRING ) {
-		if( sl->aux != NULL ) 
+		if( sl->aux != NULL )
 			free( sl->aux );
 		}
 
@@ -1089,10 +1089,10 @@ stringlist_delete_single_element_inner( Stringlist *sl )
 
 /**************************************************************************************
  * Deletes this element, and all elements both before and after it on the list
- * Returns 0 on success, -1 on error 
+ * Returns 0 on success, -1 on error
  */
 	int
-stringlist_delete_entire_list( Stringlist *sl ) 
+stringlist_delete_entire_list( Stringlist *sl )
 {
 	int		err;
 	Stringlist	*sl_prev, *sl_next, *tt;
@@ -1135,7 +1135,7 @@ stringlist_delete_entire_list( Stringlist *sl )
  * do a free( retval ) after using the return value!
  */
 	static char *
-stringlist_unescape_string( char *ss ) 
+stringlist_unescape_string( char *ss )
 {
 	char	*retval;
 	int	ii, iout;
@@ -1156,7 +1156,7 @@ stringlist_unescape_string( char *ss )
 
 	iout = 0;
 	for( ii=0; ii<strlen(ss); ii++ ) {
-		if( ss[ii] == '\\' ) 
+		if( ss[ii] == '\\' )
 			ii++;
 		retval[iout++] = ss[ii];
 		}
@@ -1173,7 +1173,7 @@ stringlist_unescape_string( char *ss )
  * do a free( retval ) after using the return value!
  */
  	static char *
-stringlist_escape_string( char *ss ) 
+stringlist_escape_string( char *ss )
 {
 	char 	*retval;
 	int	ii, iout;

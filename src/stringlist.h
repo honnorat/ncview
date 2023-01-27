@@ -15,13 +15,13 @@
 /*-----------------------------------------------
  * Types that the aux data in a stringlist can be
  *-----------------------------------------------*/
-#define SLTYPE_NULL	0	
+#define SLTYPE_NULL	0
 #define SLTYPE_INT	1
 #define SLTYPE_STRING	2
 #define SLTYPE_FLOAT	3
 #define SLTYPE_BOOL	4
 
-/* A signature to check for bad values or corruption 
+/* A signature to check for bad values or corruption
  * The 'bad' one is what we set deleted elements to,
  * so maybe we can detect trying to use a deleted
  * stringlist.

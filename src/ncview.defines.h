@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2013 by David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -16,7 +16,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  * David W. Pierce
- * 6259 Caminito Carrena 
+ * 6259 Caminito Carrena
  * San Diego, CA   92122
  * pierce@cirrus.ucsd.edu
  */
@@ -79,8 +79,8 @@
 
 
 /***************************************************************************
- * General purpose writable labels in the user interface.  These are the 
- * 'real' names; to actually use them, associate a more easily 
+ * General purpose writable labels in the user interface.  These are the
+ * 'real' names; to actually use them, associate a more easily
  * remembered #define with them, as shown below.
  */
 #define LABEL_1			1
@@ -187,7 +187,7 @@
 #define MIN_MAX_METHOD_EXHAUST	4
 
 /*****************************************************************************/
-/* Data which has the fill_value is IGNORED.  It is assumed to represent 
+/* Data which has the fill_value is IGNORED.  It is assumed to represent
  * out of domain or out of range data.  Netcdf has its own values for this
  * which replace this value, so in Netcdf implementations, this particular
  * value is not the one which is actually used.
@@ -253,14 +253,14 @@
  *
  * 	The main concept here is the 'variable'.  Variables are
  *	things which might possibly be displayed by ncview.  Variables
- *	live in one or more files, and within each of those files 
- *	have a size, and minimum and maximum values.  Different 
- *	variables can be in different files, but if you have the 
+ *	live in one or more files, and within each of those files
+ *	have a size, and minimum and maximum values.  Different
+ *	variables can be in different files, but if you have the
  *	same variable in different files it must have the EXACT SAME
  *	layout in all files, with the exception of the first index
  *	(which is the time index in netCDF files).  So, you can have
  *	20 time entries in the first file, then 7 in the second, and
- *	14 in the third; but you can't have the resolution of the 
+ *	14 in the third; but you can't have the resolution of the
  *	variable be different in the different files.
  *
  ********************************************************************/
@@ -294,10 +294,10 @@ typedef struct {
 #ifdef HAVE_UDUNITS2
 	ut_unit	*ut_unit_ptr;	/* only non-null if ut_parse worked on these units */
 #endif
-} FDBlist;	
+} FDBlist;
 
 /*****************************************************************************
- * A specific set of data for netCDF-type files.  These won't necessarily 
+ * A specific set of data for netCDF-type files.  These won't necessarily
  * be applicable to different types of data file formats.
  */
 typedef struct {
@@ -314,7 +314,7 @@ typedef struct {
 		add_offset;
 
 } NetCDFOptions;
-	
+
 /*****************************************************************************/
 /* The dimension structure.  This is more for convienence and efficiency
  * than because dimensions are so fundamental; actually, it's the variables
@@ -352,12 +352,12 @@ typedef struct {
 	float	*data_cache;		/* Cached info from the mapping var */
 	size_t	*index_place_factor;	/* Array of size var_i_map->n_dims, is 0 or factor to mult loc by */
 	int	scalar_all_same;	/* ==1 iff is a scalar coord var AND all vals are identical; ==0 otherwise */
-	
+
 } NCDim_map_info;
 
 /*****************************************************************************/
 /* Here it is: the variable structure.  Aspects of the variable which are
- * different from file to file are kept in the pointed-to file descriptor 
+ * different from file to file are kept in the pointed-to file descriptor
  * blocks (FDBs).
  */
 typedef struct {
@@ -365,7 +365,7 @@ typedef struct {
 	void	*next, *prev;			/* for global list of variables */
 	float	fill_value;			/* Any data with this special
 						 * value will be IGNORED. It
-						 * is assumed to indicate 
+						 * is assumed to indicate
 						 * out-of-range or out-of-domain
 						 * data.
 						 */
@@ -380,10 +380,10 @@ typedef struct {
 						 */
 	FDBlist **timestep_2_fdb;		/* Files can only be virtually concatenated
 	  					 * along the first (timelike) dimension.
-						 * This gives pointers to the FDBlist 
+						 * This gives pointers to the FDBlist
 						 * elements that each individual timestep
 						 * of the var lives in. So it is dimension
-						 * size[0]. Note that many entries can 
+						 * size[0]. Note that many entries can
 						 * point to the same target. For example,
 						 * if a sequency of data files with a year's
 						 * worth of monthly data is given, then
@@ -407,13 +407,13 @@ typedef struct {
 						 * on not having a valid range for this var
 						 */
 	size_t	*size;				/* The accumulated size of
-						 * this variable, from all 
+						 * this variable, from all
 						 * the files which hold it.
 						 */
 	int  	effective_dimensionality;	/* # of entries in 'size' array > 1 */
 	NCDim	**dim;				/* An array of 'n_dim' pointers to
 	 					 * Dimension structures.  This
-	 					 * is only filled out for 
+	 					 * is only filled out for
 	 					 * scannable dimensions!! If
 	 					 * the dim is not scannable,
 	 					 * a NULL is inserted instead.
@@ -421,9 +421,9 @@ typedef struct {
 	NCDim_map_info	**dim_map_info;		/* Pointer to the first entry in an
 						   array of ndims NCDim_map_info pointers
 						   that hold information describing
-						   the 2-D mapping for this dim. 
+						   the 2-D mapping for this dim.
 						   This itself should never be null,
-						   but the entries CAN BE NULL, 
+						   but the entries CAN BE NULL,
 						   in which event that dim has
 						   no mapping.  Note that the
 						   dim mapping is a function of
@@ -438,8 +438,8 @@ typedef struct {
 						   the scalar info. The reason this
 						   is not part of athe dim_map_info
 						   array is that array has exactly
-						   ndims entries, describing how 
-						   each dim in the var is mapped. 
+						   ndims entries, describing how
+						   each dim in the var is mapped.
 						   This array can have many more
 						   scalar "dims", locating the field
 						   in space or time. They are really
@@ -507,8 +507,8 @@ typedef struct {
 		dump_frames,
 		no_1d_vars,
 		min_max_method,
-		delta_step,	/* if > 0, percent of total frames to step when pressing the 
-				 * 'forward' or 'backward' button and holding down the Ctrl 
+		delta_step,	/* if > 0, percent of total frames to step when pressing the
+				 * 'forward' or 'backward' button and holding down the Ctrl
 				 * key; if < 0, absolute number of frames to step.
 				 */
 		transform,
@@ -556,7 +556,7 @@ typedef struct {
 	char	font_name[132],			/* Postscript name */
 		out_file_name[1024];
 	int	output_device,
-		include_outline, 
+		include_outline,
 		include_id,
 		include_title,
 		include_axis_labels,

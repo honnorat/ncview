@@ -11,7 +11,7 @@
 
 #define NCVIEW_STATE_FILE_VERSION	1
 
-/* 
+/*
 These routines handle the initilization (rc)/state file for ncview.
 
 Note that ncview can already use an x windows type apps file. However,

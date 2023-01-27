@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010  David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -43,7 +43,7 @@
 #ifdef HAVE_UDUNITS2
 #include "udunits2.h"
 extern ut_system *unitsys;
-#endif 
+#endif
 /*-------------------*/
 
 extern Options   options;
@@ -60,7 +60,7 @@ static int equivalent_FDBs( NCVar *v1, NCVar *v2 );
 static int data_has_mv( float *data, size_t n, float fill_value );
 static void handle_dim_mapping( NCVar *v );
 static void handle_dim_mapping_scalar( NCVar *v, char *coord_var_name, char *coord_att );
-static void handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, 
+static void handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att,
 	size_t *coord_var_eff_size, int coord_var_neff_dims, char *orig_coord_att,
 	int ncid );
 static int  determine_lat_lon( char *s_in, int *is_lat, int *is_lon );
@@ -86,7 +86,7 @@ close_enough( float data, float fill )
 		criterion = 1.0e-5*fill;
 
 	diff = data - fill;
-	if( diff < 0.0 ) 
+	if( diff < 0.0 )
 		diff = -diff;
 
 	if( diff <= criterion )
@@ -99,7 +99,7 @@ close_enough( float data, float fill )
 }
 
 /******************************************************************************
- * Add the passed NCVar element to the list 
+ * Add the passed NCVar element to the list
  */
 	void
 add_to_varlist( NCVar **list, NCVar *new_el )
@@ -212,7 +212,7 @@ data_to_pixels( View *v )
 	char	error_message[1024];
 
 	/* Make sure the limits have been set on this variable.
-	 * They won't always be because an initial expose event can 
+	 * They won't always be because an initial expose event can
 	 * cause this routine to be executed before the min and
 	 * maxes are calcuclated.
 	 */
@@ -230,7 +230,7 @@ data_to_pixels( View *v )
 	if( scaled_data == NULL ) {
 		fprintf( stderr, "ncview: data_to_pixels: can't allocate data expansion array\n" );
 		fprintf( stderr, "requested size: %ld bytes\n", new_x_size*new_y_size*sizeof(float) );
-		fprintf( stderr, "new_x_size, new_y_size, float_size: %ld %ld %ld\n", 
+		fprintf( stderr, "new_x_size, new_y_size, float_size: %ld %ld %ld\n",
 				new_x_size, new_y_size, sizeof(float) );
 		fprintf( stderr, "blowup: %d\n", options.blowup );
 		exit( -1 );
@@ -239,7 +239,7 @@ data_to_pixels( View *v )
 	/* If we are doing overlays, implement them */
 	if( options.overlay->doit && (options.overlay->overlay != NULL)) {
 		for( i=0; i<(x_size*y_size); i++ ) {
-			*((float *)v->data + i) = 
+			*((float *)v->data + i) =
 			     (float)(1 - *(options.overlay->overlay+i)) * *((float *)v->data + i) +
 			     (float)(*(options.overlay->overlay+i)) * v->variable->fill_value;
 			}
@@ -265,7 +265,7 @@ data_to_pixels( View *v )
 		in_set_cursor_normal();
 		in_button_pressed( BUTTON_PAUSE, MOD_1 );
 		if( options.min_max_method == MIN_MAX_METHOD_EXHAUST ) {
-	    		snprintf( error_message, 1022, "min and max both 0 for variable %s (checked all data)\nSetting range to (-1,1)", 
+	    		snprintf( error_message, 1022, "min and max both 0 for variable %s (checked all data)\nSetting range to (-1,1)",
 								v->variable->name );
 			in_error( error_message );
 			v->variable->user_max = 1;
@@ -283,7 +283,7 @@ data_to_pixels( View *v )
 			options.min_max_method = orig_minmax_method;
 			if( (v->variable->user_max == 0) &&
 	    		    (v->variable->user_min == 0) ) {
-	    			snprintf( error_message, 1022, "min and max both 0 for variable %s (checked all data)\nSetting range to (-1,1)", 
+	    			snprintf( error_message, 1022, "min and max both 0 for variable %s (checked all data)\nSetting range to (-1,1)",
 								v->variable->name );
 				in_error( error_message );
 				v->variable->user_max = 1;
@@ -343,15 +343,15 @@ data_to_pixels( View *v )
 					case TRANSFORM_NONE:	break;
 
 					/* This might cause problems.  It is at odds with what
-					 * the manual claims--at least for Ultrix--but works, 
+					 * the manual claims--at least for Ultrix--but works,
 					 * whereas what the manual claims works, doesn't!
 					 */
-					case TRANSFORM_LOW:	data = sqrt( data );  
+					case TRANSFORM_LOW:	data = sqrt( data );
 								data = sqrt( data );
 								break;
 
 					case TRANSFORM_HI:	data = data*data*data*data;     break;
-					}		
+					}
 				if( options.invert_colors )
 					data = 1. - data;
 				pix_val = (ncv_pixel)(data * options.n_colors) + 10;
@@ -388,7 +388,7 @@ n_vars_in_list( NCVar *v )
 /******************************************************************************
  * Given a list of variable *names*, initialize the variable *structure* and
  * add it to the global list of variables.  Input arg 'nfiles' is the total
- * number of files indicated on the command line, this can be useful for 
+ * number of files indicated on the command line, this can be useful for
  * initializing arrays.
  */
 	void
@@ -400,12 +400,12 @@ add_vars_to_list( Stringlist *var_list, int id, char *filename, int nfiles )
 		fprintf( stderr, "add_vars_to_list: entering, adding vars to list for file %s\n", filename );
 	var = var_list;
 	while( var != NULL ) {
-		if( options.debug ) 
+		if( options.debug )
 			fprintf( stderr, "adding variable %s to list\n", var->string );
 		add_var_to_list( var->string, id, filename, nfiles );
 		var = var->next;
 		}
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "done adding vars for file %s\n", filename );
 }
 
@@ -481,7 +481,7 @@ add_var_to_list( char *var_name, int file_id, char *filename, int nfiles )
 		new_var->is_virtual = FALSE;
 
 		}
-	else	/* YES -- just add the FDB to the list of files in which 
+	else	/* YES -- just add the FDB to the list of files in which
 		 * this variable appears, and accumulate the variable's size.
 		 */
 		{
@@ -543,13 +543,13 @@ cache_scalar_coord_info( NCVar *vars )
 			tfile = v->first_file;
 			i_cursor = 0L;
 			while( tfile != NULL ) {
-				/* Set all FDBpointers for the timesteps in THIS file 
+				/* Set all FDBpointers for the timesteps in THIS file
 				 * to point to this file
 				 */
 				n_ts_this_file = tfile->var_size[0];
 				if( options.debug )
-					printf( "%ld timesteps of var %s are in file %s\n", n_ts_this_file, v->name, tfile->filename ); 
-				for( ii=0; ii<n_ts_this_file; ii++ ) 
+					printf( "%ld timesteps of var %s are in file %s\n", n_ts_this_file, v->name, tfile->filename );
+				for( ii=0; ii<n_ts_this_file; ii++ )
 					v->timestep_2_fdb[i_cursor++] = tfile;
 				tfile = tfile->next;
 				}
@@ -586,7 +586,7 @@ cache_scalar_coord_info( NCVar *vars )
 				printf( "Making cache for the %d SCALAR coordinates of variable %s, which lives in %d files\n", nsc, v->name, nfiles );
 
 			/* We hold the values of the scalar coords in the data_cache */
-			for( isc=0; isc<nsc; isc++ ) {	
+			for( isc=0; isc<nsc; isc++ ) {
 				dmi = v->scalar_dim_map_info[isc];
 				dmi->data_cache = (float *)malloc( sizeof(float) * nfiles ); /* one val per FILE (not timestep) */
 				if( dmi->data_cache == NULL ) {
@@ -598,7 +598,7 @@ cache_scalar_coord_info( NCVar *vars )
 			/* Go through each file and read in the vals of all the scalar coords */
 			tfile = v->first_file;
 			for( ifile=0; ifile<nfiles; ifile++ ) {
-				for( isc=0; isc<nsc; isc++ ) {	
+				for( isc=0; isc<nsc; isc++ ) {
 					dmi = v->scalar_dim_map_info[isc];
 					if( dmi == NULL ) {
 						fprintf( stderr, "Coding error, uninitialized pointer to a scalar dim info struct is being used\n" );
@@ -613,12 +613,12 @@ cache_scalar_coord_info( NCVar *vars )
 				}
 
 			/* Now see if all the scalar values are the same */
-			for( isc=0; isc<nsc; isc++ ) {	
+			for( isc=0; isc<nsc; isc++ ) {
 				dmi = v->scalar_dim_map_info[isc];
-				dmi->scalar_all_same = 1;	
+				dmi->scalar_all_same = 1;
 				if( nfiles > 1 ) {
 					for( ifile=1; ifile<nfiles; ifile++ ) {
-						if( dmi->data_cache[ifile] != dmi->data_cache[0] ) 
+						if( dmi->data_cache[ifile] != dmi->data_cache[0] )
 							dmi->scalar_all_same = 0;
 						}
 					}
@@ -661,12 +661,12 @@ init_min_max( NCVar *var )
 		exit( -1 );
 		}
 
-	/* We always get the min and max of the first, middle, and last time 
+	/* We always get the min and max of the first, middle, and last time
 	 * entries if they are distinct.
 	 */
 	verbose = TRUE;
 	step    = 0L;
-	get_min_max_onestep( var, n_other, step, data, 
+	get_min_max_onestep( var, n_other, step, data,
 			&(var->global_min), &(var->global_max), verbose );
 	if( n_timesteps == 1 ) {
 		if( verbose )
@@ -677,7 +677,7 @@ init_min_max( NCVar *var )
 		}
 
 	step = n_timesteps-1L;
-	get_min_max_onestep( var, n_other, step, data, 
+	get_min_max_onestep( var, n_other, step, data,
 			&(var->global_min), &(var->global_max), verbose );
 	if( n_timesteps == 2 ) {
 		if( verbose )
@@ -688,7 +688,7 @@ init_min_max( NCVar *var )
 		}
 
 	step = (n_timesteps-1L)/2L;
-	get_min_max_onestep( var, n_other, step, data, 
+	get_min_max_onestep( var, n_other, step, data,
 			&(var->global_min), &(var->global_max), verbose );
 	if( n_timesteps == 3 ) {
 		if( verbose )
@@ -699,40 +699,40 @@ init_min_max( NCVar *var )
 		}
 
 	switch( options.min_max_method ) {
-		case MIN_MAX_METHOD_FAST: 
+		case MIN_MAX_METHOD_FAST:
 			if( verbose )
 				printf( "\n" );
 			break;
-			
-		case MIN_MAX_METHOD_MED:     
+
+		case MIN_MAX_METHOD_MED:
 			verbose = TRUE;
 			step = (n_timesteps-1L)/4L;
-			get_min_max_onestep( var, n_other, step, data, 
+			get_min_max_onestep( var, n_other, step, data,
 				&(var->global_min), &(var->global_max), verbose );
 			step = (3L*(n_timesteps-1L))/4L;
-			get_min_max_onestep( var, n_other, step, data, 
+			get_min_max_onestep( var, n_other, step, data,
 				&(var->global_min), &(var->global_max), verbose );
 			if( verbose )
 				printf( "\n" );
 			break;
-				
+
 		case MIN_MAX_METHOD_SLOW:
 			verbose = TRUE;
-			for( i=2; i<=9; i++ ) { 
+			for( i=2; i<=9; i++ ) {
 				printf( "." );
 				step = (i*(n_timesteps-1L))/10L;
-				get_min_max_onestep( var, n_other, step, data, 
+				get_min_max_onestep( var, n_other, step, data,
 					&(var->global_min), &(var->global_max), verbose );
 				}
 			if( verbose )
 				printf( "\n" );
 			break;
-			
+
 		case MIN_MAX_METHOD_EXHAUST:
 			verbose = TRUE;
 			for( i=1; i<(n_timesteps-2L); i++ ) {
 				step = i;
-				get_min_max_onestep( var, n_other, step, data, 
+				get_min_max_onestep( var, n_other, step, data,
 					&(var->global_min), &(var->global_max), verbose );
 				}
 			if( verbose )
@@ -744,7 +744,7 @@ init_min_max( NCVar *var )
 		var->global_min = 0.0;
 		var->global_max = 0.0;
 		}
-		
+
 	check_ranges( var );
 	free( data );
 }
@@ -798,22 +798,22 @@ check_ranges( NCVar *var )
 }
 
 /******************************************************************************
- * get_min_max utility routine; is passed timestep number where want to 
- * determine extrema 
+ * get_min_max utility routine; is passed timestep number where want to
+ * determine extrema
  * Inputs:
  *	n_other : # of entries in a single timelice of the variable
  *	data    : working space that will be overwritten with data values
  *		  of the specified timestep
  */
 	void
-get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data, 
+get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data,
 					float *min, float *max, int verbose )
 {
 	size_t	*start, *count, n_time;
 	size_t	j;
 	int	i;
 	float	dat, fill_v;
-	
+
 	count  = (size_t *)malloc( var->n_dims * sizeof( size_t ));
 	start  = (size_t *)malloc( var->n_dims * sizeof( size_t ));
 	fill_v = var->fill_value;
@@ -848,7 +848,7 @@ get_min_max_onestep( NCVar *var, size_t n_other, size_t tstep, float *data,
 				*min = dat;
 			}
 		}
-		
+
 	free( count );
 	free( start );
 }
@@ -872,7 +872,7 @@ get_var( char *var_name )
 }
 
 /******************************************************************************
- * Clip out of range floats 
+ * Clip out of range floats
  */
 	void
 clip_f( float *data, float min, float max )
@@ -885,12 +885,12 @@ clip_f( float *data, float min, float max )
 
 /******************************************************************************
  * Turn a virtual variable 'place' array into a file/place pair.  Which is
- * to say, the virtual size of a variable spans the entries in all the files; 
+ * to say, the virtual size of a variable spans the entries in all the files;
  * the actual place where the entry for a particular virtual location can
  * be found is in a file/actual_place pair.  This routine does the conversion.
  * Note that this routine is assuming the netCDF convention that ONLY THE
  * FIRST index can be contiguous across files.  The first index is typically
- * the time index in netCDF files.  NOTE! that 'act_pl' must be allocated 
+ * the time index in netCDF files.  NOTE! that 'act_pl' must be allocated
  * before calling this!
  */
 	void
@@ -936,7 +936,7 @@ virt_to_actual_place( NCVar *var, size_t *virt_pl, size_t *act_pl, FDBlist **fil
 handle_dim_mapping( NCVar *v )
 {
 	int	i, varid, ncid, coord_var_ndims, coord_var_neff_dims;
-	size_t	coord_var_eff_size[MAX_NC_DIMS], *coord_var_size; 
+	size_t	coord_var_eff_size[MAX_NC_DIMS], *coord_var_size;
 	char	*coord_att, *s, orig_coord_att[1024];
 	const 	char *delim = " \n\0\t";
 
@@ -969,15 +969,15 @@ handle_dim_mapping( NCVar *v )
 	while( s != NULL ) {
 
 		/* See if this token "s", which came from the coordinates attribute,
-		 * is the name of a variable in the file 
+		 * is the name of a variable in the file
 		 */
 		varid = safe_ncvarid( ncid, s );
 		if( varid != -1 ) {	/* yes, the token "s" matches the name of a var in the file! */
 
 			/* Right now, I'm only going to try to handle either scalar (0d)
-			 * or 2-D mapping dims.  Scalar mapping dims just give an 
+			 * or 2-D mapping dims.  Scalar mapping dims just give an
 			 * additional location where the data is valid; for example,
-			 * the data might be a 2d field in (lon,lat) and have a 
+			 * the data might be a 2d field in (lon,lat) and have a
 			 * "height" coordinate that tells the height the data is at.
 			 * If the dim is more complicated than that, then we simply
 			 * ignore the mapping.  In particular, the test WRF output file
@@ -998,17 +998,17 @@ handle_dim_mapping( NCVar *v )
 
 			/* These routines are where we do most of the work
 			 */
-			if( coord_var_neff_dims == 0 ) 
+			if( coord_var_neff_dims == 0 )
 				handle_dim_mapping_scalar( v, s, coord_att );
 
-			else if( coord_var_neff_dims == 2 ) 
+			else if( coord_var_neff_dims == 2 )
 				handle_dim_mapping_2d( v, s, coord_att, coord_var_eff_size, coord_var_neff_dims,
 					orig_coord_att, ncid );
 
 			else
 				{
 				printf( "Note: the coordinates attribute for variable %s is being ignored,\n", v->name );
-				printf( "since it specifies a variable (%s) that has %d effective dims (an effective dim has a size greater than 1)\n", 
+				printf( "since it specifies a variable (%s) that has %d effective dims (an effective dim has a size greater than 1)\n",
 					s, coord_var_neff_dims );
 				printf( "I am not set up to handle cases with coordinate mapping using anything other than 0 or 2 effective dims\n" );
 				return;
@@ -1037,7 +1037,7 @@ handle_dim_mapping_scalar( NCVar *v, char *coord_var_name, char *coord_att )
 		return;
 		}
 
-	/* Make a new SCALAR dim map info structure to 
+	/* Make a new SCALAR dim map info structure to
 	 * hold our single value
 	 */
 	tmi = (NCDim_map_info *)malloc( sizeof(NCDim_map_info) );
@@ -1057,11 +1057,11 @@ handle_dim_mapping_scalar( NCVar *v, char *coord_var_name, char *coord_att )
 	if( options.debug ) printf("Added a new scalar coord to var %s: name=%s count=%d\n",
 		v->name, coord_var_name, v->n_scalar_coords );
 
-	/* Note that we CANNOT fill out the data values for this "scalar" coord var 
+	/* Note that we CANNOT fill out the data values for this "scalar" coord var
 	 * yet. The reason is because this var might live in multiple files, and
-	 * each file could have a different value of the scalar variable. I.e., 
+	 * each file could have a different value of the scalar variable. I.e.,
 	 * the scalar coord var could be used to essentially add another unlimited
-	 * dimension to the variable. To handle this, we must read in the 
+	 * dimension to the variable. To handle this, we must read in the
 	 * scalar values from EACH FILE after we know what all the files this
 	 * variable lives in are. That happens in the routine that calls this
 	 * one, add_var_to_list
@@ -1097,7 +1097,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 	map_info->var_i_map = v;
 
 	/* Since "coord_var_name" matches a var name, it must be the coordinate variable name in particular.
-	 * The coordinate variable is the var in the file that holds mapping info 
+	 * The coordinate variable is the var in the file that holds mapping info
 	 */
 	map_info->coord_var_name = (char *)malloc( strlen(coord_var_name) + 2 );
 	if( map_info->coord_att == NULL ) {
@@ -1106,7 +1106,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 		}
 	strcpy( map_info->coord_var_name, coord_var_name );
 
-	if( options.debug ) printf( "Coord var named >%s< is a NON-SCALAR coord used to map a dimension of var %s\n", 
+	if( options.debug ) printf( "Coord var named >%s< is a NON-SCALAR coord used to map a dimension of var %s\n",
 			coord_var_name, v->name );
 
 	/* See how many dims this coord var has */
@@ -1123,7 +1123,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 		printf( "\n" );
 		}
 
-	/* Get array of boolean indicating which dims in the 
+	/* Get array of boolean indicating which dims in the
 	 * base var match the shape of this coord var.  For
 	 * instance, if we have a var of shape (10,20,180,360)
 	 * and a coord var of shape (180,360) then this indicating
@@ -1199,7 +1199,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 
 	/* Try to figure out if this dim is 'latitude' like
 	 * or 'longitude' like....these are the only options
-	 * for now. 
+	 * for now.
 	 */
 	err = determine_lat_lon( map_info->coord_var_name, &is_lat, &is_lon );
 	if( err != 0 ) {
@@ -1219,7 +1219,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 				idx_lon_dim = i;
 				if( options.debug )
 					printf( "In variable \"%s\", dimension \"%s\" is mapped by LONGITUDE-like %d-dimensional variable \"%s\"\n",
-					v->name, netcdf_dim_id_to_name( v->first_file->id, v->name, i), 
+					v->name, netcdf_dim_id_to_name( v->first_file->id, v->name, i),
 					map_info->coord_var_ndims, map_info->coord_var_name );
 				break;
 				}
@@ -1227,7 +1227,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 		/* Now, since we've found the index of the lon dim, the
 		 * index of the lat dim must be the other one
 		 */
-		for( i=0; i<v->n_dims; i++ ) 
+		for( i=0; i<v->n_dims; i++ )
 			if( (map_info->matching_var_dims[i] == 1) && (i != idx_lon_dim))
 				idx_lat_dim = i;
 		}
@@ -1248,7 +1248,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 		/* Now, since we've found the index of the lat dim, the
 		 * index of the lon dim must be the other one
 		 */
-		for( i=0; i<v->n_dims; i++ ) 
+		for( i=0; i<v->n_dims; i++ )
 			if( (map_info->matching_var_dims[i] == 1) && (i != idx_lat_dim))
 				idx_lon_dim = i;
 		}
@@ -1268,7 +1268,7 @@ handle_dim_mapping_2d( NCVar *v, char *coord_var_name, char *coord_att, size_t *
 		}
 	map_info->data_cache = (float *)malloc( totsize*sizeof(float) );
 	if( map_info->data_cache == NULL ) {
-		fprintf( stderr, "Error, could not allocate cache for dim map variable %s; total size (bytes): %ld\n", 
+		fprintf( stderr, "Error, could not allocate cache for dim map variable %s; total size (bytes): %ld\n",
 			map_info->coord_var_name, totsize*sizeof(float) );
 		exit(-1);
 		}
@@ -1335,20 +1335,20 @@ fill_dim_structs( NCVar *v )
 			d->calendar  	= fi_dim_calendar( fileid, dim_name );
 			d->global_id 	= ++global_id;
 			handle_time_dim( fileid, v, i );
-			if( options.debug ) 
+			if( options.debug )
 				fprintf( stderr, "adding scannable dim to var %s: dimname: %s dimsize: %ld\n", v->name, dim_name, d->size );
 			}
 		else
 			{
 			/* Indicate non-scannable dimensions by a NULL */
 			*(v->dim + i) = NULL;
-			if( options.debug ) 
-				fprintf( stderr, "adding non-scannable dim to var %s: dim name: %s size: %ld\n", 
+			if( options.debug )
+				fprintf( stderr, "adding non-scannable dim to var %s: dim name: %s size: %ld\n",
 					v->name, fi_dim_id_to_name( fileid, v->name, i), *(v->size+i) );
 			}
 		}
 
-	/* If this variable lives in more than one file, it might have 
+	/* If this variable lives in more than one file, it might have
 	 * different time units in each one.  Check for this.
 	 */
 	if( v->is_virtual && (*(v->dim) != NULL) && (v->first_file->next != NULL) ) {
@@ -1356,7 +1356,7 @@ fill_dim_structs( NCVar *v )
 		d = *(v->dim+0);
 		if( d->timelike ) {
 			/* Go through each file and see if it has the same units
-			 * as the first file, which is stored in d->units 
+			 * as the first file, which is stored in d->units
 			 */
 			cursor = v->first_file->next;
 			while( cursor != NULL ) {
@@ -1372,7 +1372,7 @@ fill_dim_structs( NCVar *v )
 
 /******************************************************************************
  * Is this a "scannable" dimension -- i.e., accessable by the taperecorder
- * style buttons? Is scannable if: 
+ * style buttons? Is scannable if:
  * 	> is unlimited
  *	> or, is size > 1
  */
@@ -1509,7 +1509,7 @@ copy_info_to_identical_dims( NCVar *vsrc, NCDim *dsrc, size_t dim_len )
 				dims_are_same = (strcmp( dsrc->name, d->name ) == 0 ) &&
 						equivalent_FDBs( vsrc, v );
 				if( dims_are_same ) {
-					if( options.debug ) 
+					if( options.debug )
 						fprintf( stderr, "Dim %s (%d) is same as dim %s (%d), copying min&max from former to latter...\n", dsrc->name, dsrc->global_id, d->name, d->global_id );
 					d->min = dsrc->min;
 					d->max = dsrc->max;
@@ -1549,15 +1549,15 @@ calc_dim_minmaxes( void )
 		for( i=0; i<v->n_dims; i++ ) {
 			d = *(v->dim+i);
 			if( (d != NULL) && (d->have_calc_minmax == 0)) {
-				if( options.debug ) 
+				if( options.debug )
 					fprintf( stderr, "...min & maxes for dim %s (%d)...\n", d->name, d->global_id );
 				dim_len = *(v->size+i);
 				d->values = (float *)malloc(dim_len*sizeof(float));
 
-				for( j=0; j<v->n_dims; j++ ) 
+				for( j=0; j<v->n_dims; j++ )
 					cursor_place[j] = (int)(*(v->size+j)/2.0);	/* take middle in case 2-d mapped dims apply */
 
-				type = fi_dim_value( v, i, 0L, &temp_double, temp_str, &has_bounds, &bounds_min, 
+				type = fi_dim_value( v, i, 0L, &temp_double, temp_str, &has_bounds, &bounds_min,
 								&bounds_max, cursor_place );	/* used to get type ONLY */
 				if( type == NC_DOUBLE ) {
 					for( j=0; j<dim_len; j++ ) {
@@ -1570,7 +1570,7 @@ calc_dim_minmaxes( void )
 					}
 				else
 					{
-					if( options.debug ) 
+					if( options.debug )
 						fprintf( stderr, "**Note: non-float dim found; i=%d\n", i );
 					d->min  = 1.0;
 					d->max  = (float)dim_len;
@@ -1578,7 +1578,7 @@ calc_dim_minmaxes( void )
 						*(d->values+j) = (float)j;
 					}
 				d->have_calc_minmax = 1;
-				
+
 				/* Try to see if the dim is a lat or lon.  Not an exact science by a long shot */
 				name_lat  = strncmp_nocase(d->name,  "lat",    3)==0;
 				units_lat = strncmp_nocase(d->units, "degree", 6) == 0;
@@ -1601,11 +1601,11 @@ calc_dim_minmaxes( void )
 		v = v->next;
 		}
 }
-	
+
 /********************************************************************************
- * Actually do the "shrinking" of the FLOATING POINT (not pixel) data, converting 
+ * Actually do the "shrinking" of the FLOATING POINT (not pixel) data, converting
  * it to the small version by either finding the most common value in the square,
- * or by averaging over the square.  Remember that our standard for how to 
+ * or by averaging over the square.  Remember that our standard for how to
  * interpret 'options.blowup' is that a value of "-N" means to shrink by a factor
  * of N.  So, blowup == -2 means make it half size, -3 means 1/3 size, etc.
  */
@@ -1665,7 +1665,7 @@ contract_data( float *small_data, View *v, float fill_value )
 }
 
 /******************************************************************************
- * Actually do the "blowup" of the FLOATING POINT (not pixel) data, converting 
+ * Actually do the "blowup" of the FLOATING POINT (not pixel) data, converting
  * it to the large version by either interpolation or replication.
  * NOTE this routine is only called when options.blowup > 0!
  */
@@ -1688,7 +1688,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 #endif
 
 	/*--------------------------------------------------------------------------------
-	 * See my notebook entry of 2010-08-23. 
+	 * See my notebook entry of 2010-08-23.
 	 * In general we draw a distinction between indices that are valid in the
 	 * original (little) array, indicazted by a "l" (little) suffix (such as il or jl),
 	 * and indices valid in the destination (big) array, which have a suffix of "b".
@@ -1699,14 +1699,14 @@ expand_data( float *big_data, View *v, size_t array_size )
 	nyb = nyl*blowup;				/* # of Y entries in big array */
 
 	fill_val = v->variable->fill_value;
-	
+
 	if( (nxb < blowup) || (nxb*nyb < blowup) ) {
 		fprintf( stderr, "ncview: data_to_pixels: too much magnification\n" );
 		fprintf( stderr, "nxb=%ld\n", nxb );
 		exit( -1 );
 		}
 
-	if( (blowup == 1) || (options.blowup_type == BLOWUP_REPLICATE)) { 
+	if( (blowup == 1) || (options.blowup_type == BLOWUP_REPLICATE)) {
 		for( jl=0; jl<nyl; jl++ ) {
 			for( il=0; il<nxl; il++ )
 				for( i2b=0; i2b<blowup; i2b++ ) {
@@ -1724,7 +1724,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 						*(big_data + i2b + jl*nxb*blowup);
 					}
 			}
-		} 
+		}
 
 	else 	{ /* BLOWUP_BILINEAR */
 		bupr = 1.0/(float)blowup;
@@ -1784,7 +1784,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 			}
 
 		/* Vertical base lines */
-		for( jl=0; jl<nyl-1; jl++ ) 
+		for( jl=0; jl<nyl-1; jl++ )
 		for( il=0; il<nxl;   il++ ) {
 			base_val  = *((float *)v->data + il + jl*nxl);
 			below_val = *((float *)v->data + il + (jl+1)*nxl);
@@ -1833,7 +1833,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 			*(big_data + il*blowup+offset_xb + (nyl-1)*blowup*nxb + offset_yb*nxb) = *((float *)v->data + il + (nyl-1)*nxl);
 			}
 
-		/* Now, fill in the interior of the interior squares by 
+		/* Now, fill in the interior of the interior squares by
 		 * interpolating from the horizontal and vertical
 		 * base lines.
 		 */
@@ -1849,14 +1849,14 @@ expand_data( float *big_data, View *v, size_t array_size )
 				base_y    = *(big_data + il*blowup+i2b+offset_xb +  jl   *blowup*nxb + offset_yb*nxb);
 				below_val = *(big_data + il*blowup+i2b+offset_xb + (jl+1)*blowup*nxb + offset_yb*nxb);
 
-				if( close_enough(base_x,    fill_val) || 
-				    close_enough(right_val, fill_val) || 
+				if( close_enough(base_x,    fill_val) ||
+				    close_enough(right_val, fill_val) ||
 				    (il == nxl-1) )
 					del_x = 0.0;
 				else
 					del_x  = right_val - base_x;
-				if( close_enough(base_y,    fill_val) || 
-				    close_enough(below_val, fill_val) || 
+				if( close_enough(base_y,    fill_val) ||
+				    close_enough(below_val, fill_val) ||
 				    (jl == nyl-1) )
 					del_y = 0.0;
 				else
@@ -1883,8 +1883,8 @@ expand_data( float *big_data, View *v, size_t array_size )
 			}
 
 		/* It is a tricky and undetermined question as to whether we want to allow
-		 * extrema on the boundaries.  As a complete and total hack, we use only 
-		 * some fraction of the linear projection when extrapolating out to the 
+		 * extrema on the boundaries.  As a complete and total hack, we use only
+		 * some fraction of the linear projection when extrapolating out to the
 		 * edges.  If this is set to 1, then full linear extrapolation is used;
 		 * if set to 0, no extrapolation is done.
 		 */
@@ -1895,7 +1895,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 		 */
 		il = nxl-1;
 		for( j2b=0; j2b<=blowup*(nyl-1); j2b++ ) {
-			idx = il*blowup+offset_xb + (j2b+offset_yb)*nxb;	
+			idx = il*blowup+offset_xb + (j2b+offset_yb)*nxb;
 			step = (*(big_data + idx - 1) - *(big_data + idx - 2));
 			val  = *(big_data + idx) + step;
 			for( i2b=1; i2b<(blowup-offset_xb+1); i2b++ ) {
@@ -1971,7 +1971,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 				*(big_data + i2b + j2b*nxb) = cval;
 				}
 			}
-			
+
 		/* Lower right corner */
 		il = nxl - 1;
 		jl = 0;
@@ -2041,7 +2041,7 @@ expand_data( float *big_data, View *v, size_t array_size )
 	void
 set_blowup_type( int new_type )
 {
-	if( new_type == BLOWUP_REPLICATE ) 
+	if( new_type == BLOWUP_REPLICATE )
 		in_set_label( LABEL_BLOWUP_TYPE, "Repl"   );
 	else
 		in_set_label( LABEL_BLOWUP_TYPE, "Bi-lin" );
@@ -2151,14 +2151,14 @@ months_calc_tgran( int fileid, NCDim *d )
 			type );
 		return( TGRAN_DAY );
 		}
-	
+
 	delta = v1 - v0;
 
-	if( delta > 11.5 ) 
+	if( delta > 11.5 )
 		return( TGRAN_YEAR );
-	if( delta > .95 ) 
+	if( delta > .95 )
 		return( TGRAN_MONTH );
-	if( delta > .03 ) 
+	if( delta > .03 )
 		return( TGRAN_DAY );
 
 	return( TGRAN_MIN );
@@ -2175,10 +2175,10 @@ void fmt_time( char *temp_string, size_t temp_string_len, double new_dimval, NCD
 		exit( -1 );
 		}
 
-	if( dim->time_std == TSTD_UDUNITS ) 
+	if( dim->time_std == TSTD_UDUNITS )
 		udu_fmt_time( temp_string, temp_string_len, new_dimval, dim, include_granularity );
 
-	else if( dim->time_std == TSTD_EPIC_0 ) 
+	else if( dim->time_std == TSTD_EPIC_0 )
 		epic_fmt_time( temp_string, temp_string_len, new_dimval, dim );
 
 	else if( dim->time_std == TSTD_MONTHS ) {
@@ -2299,12 +2299,12 @@ int determine_lat_lon( char *s_in, int *is_lat, int *is_lon )
 /*******************************************************************************************
  * Returns the number of forward slashes in a string
  */
-int count_nslashes( char *s ) 
+int count_nslashes( char *s )
 {
 	int	i, nslash;
 
 	nslash = 0;
-	for( i=0; i<strlen(s); i++ ) 
+	for( i=0; i<strlen(s); i++ )
 		if( s[i] == '/' )
 			nslash++;
 
@@ -2316,7 +2316,7 @@ int count_nslashes( char *s )
  * lives in the root group, then the return list includes "/". If no var lives in the root
  * group, then the list does NOT include "/".
  */
-Stringlist *get_group_list( NCVar *vars ) 
+Stringlist *get_group_list( NCVar *vars )
 {
 	Stringlist	*retval = NULL, *tg;
 	NCVar		*cursor;
@@ -2364,7 +2364,7 @@ Stringlist *get_group_list( NCVar *vars )
  *
  * Returns 0 on success, -1 on error
  */
-int unpack_groupname( char *varname, int ig, char *groupname ) 
+int unpack_groupname( char *varname, int ig, char *groupname )
 {
 	int	i, i0, i1, idx_slash[MAX_NC_NAME], nslash;
 	char	ts[MAX_NC_NAME];
@@ -2411,7 +2411,7 @@ int unpack_groupname( char *varname, int ig, char *groupname )
 		return( 0 );
 		}
 
-	if( ig == 0 ) 
+	if( ig == 0 )
 		i0 = 0;
 	else
 		i0 = idx_slash[ig-1] + 1;

@@ -31,7 +31,7 @@
 
 #ifndef XtIsSciPlot
 #define XtIsSciPlot(w) XtIsSubclass((Widget)w, sciplotWidgetClass)
-#endif 
+#endif
 
 
 typedef float real;

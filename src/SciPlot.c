@@ -197,7 +197,7 @@ get_number_format( char *numberformat, size_t nflen, int precision, real val )
 int
 my_nint( double d )
 {
-	if( d >= 0.0 ) 
+	if( d >= 0.0 )
 		return( (int)(d+0.4999) );
 
 	return( (int)(d-0.4999) );
@@ -215,11 +215,11 @@ XtGCMask mask;
 long	colorsave;
 
 	new=(SciPlotWidget) tnew;
-	
+
 	new->plot.plotlist=NULL;
 	new->plot.alloc_plotlist=0;
 	new->plot.num_plotlist=0;
-	
+
 	new->plot.alloc_drawlist=NUMPLOTITEMALLOC;
 	new->plot.drawlist=(SciPlotItem *)XtCalloc(new->plot.alloc_drawlist,
 		sizeof(SciPlotItem));
@@ -227,7 +227,7 @@ long	colorsave;
 
 	new->plot.cmap = DefaultColormap(XtDisplay(new),
 		DefaultScreen(XtDisplay(new)));
-	
+
 	new->plot.xlabel=(char *)XtMalloc(strlen(new->plot.TransientXLabel)+1);
 	strcpy(new->plot.xlabel,new->plot.TransientXLabel);
 	new->plot.ylabel=(char *)XtMalloc(strlen(new->plot.TransientYLabel)+1);
@@ -240,7 +240,7 @@ long	colorsave;
 	new->plot.num_colors=0;
 	new->plot.fonts=NULL;
 	new->plot.num_fonts=0;
-	
+
 	new->plot.update=FALSE;
 	new->plot.UserMin.x=new->plot.UserMin.y=0.0;
 	new->plot.UserMax.x=new->plot.UserMax.y=10.0;
@@ -262,7 +262,7 @@ long	colorsave;
 	values.foreground=colorsave;
 	values.line_style=LineOnOffDash;
 	new->plot.dashGC=XtGetGC((Widget)new,mask,&values);
-	
+
 	new->plot.titleFont=FontStore(new,new->plot.TitleFont);
 	new->plot.labelFont=FontStore(new,new->plot.LabelFont);
 	new->plot.axisFont=FontStore(new,new->plot.AxisFont);
@@ -297,7 +297,7 @@ SciPlotList *p;
 	}
 	if (w->plot.alloc_plotlist>0)
 		XtFree((char *)w->plot.plotlist);
-		
+
 	EraseAll(w);
 	XtFree((char *)w->plot.drawlist);
 }
@@ -357,7 +357,7 @@ Boolean redisplay=FALSE;
 	}
 
 	new->plot.update=redisplay;
-	
+
 	return redisplay;
 }
 
@@ -413,11 +413,11 @@ SciPlotFont *pf;
 int fontflag,sizeflag,attrflag;
 
 	pf=&w->plot.fonts[fontnum];
-	
+
 	fontflag=flag&XtFONT_NAME_MASK;
 	sizeflag=flag&XtFONT_SIZE_MASK;
 	attrflag=flag&XtFONT_ATTRIBUTE_MASK;
-	
+
 	switch (fontflag) {
 	case XtFONT_TIMES:
 	case XtFONT_COURIER:
@@ -430,9 +430,9 @@ int fontflag,sizeflag,attrflag;
 		fontflag=XtFONT_NAME_DEFAULT;
 		break;
 	}
-	
+
 	if (sizeflag<1) sizeflag=XtFONT_SIZE_DEFAULT;
-	
+
 	switch (attrflag) {
 	case XtFONT_BOLD:
 	case XtFONT_ITALIC:
@@ -455,9 +455,9 @@ SciPlotFont *pf;
 
 	pf=&w->plot.fonts[fontnum];
 	XFreeFont(XtDisplay(w),pf->font);
-	
+
 	FontnumStore(w,fontnum,flag);
-	
+
 	return fontnum;
 }
 
@@ -475,9 +475,9 @@ int fontnum;
 	else
 		w->plot.fonts=(SciPlotFont *)XtCalloc(1,sizeof(SciPlotFont));
 	fontnum=w->plot.num_fonts-1;
-	
+
 	FontnumStore(w,fontnum,flag);
-	
+
 	return fontnum;
 }
 
@@ -486,7 +486,7 @@ FontDescLookup(flag)
 int flag;
 {
 SciPlotFontDesc *pfd;
-	
+
 	pfd=font_desc_table;
 	while (pfd->flag>=0) {
 #ifdef DEBUG_SCIPLOT
@@ -815,7 +815,7 @@ GC drawGC;
 			}
 		}
 	}
-	
+
 #ifdef DEBUG_SCIPLOT_VTEXT
 	if (1) {
 	char sourcebit;
@@ -829,7 +829,7 @@ GC drawGC;
 			}
 			putchar('\n');
 		}
-	
+
 		for (yloop=0; yloop<after->height; yloop++) {
 			for (xloop=0; xloop<after->width; xloop++) {
 				source=after->data+(xloop/8)+
@@ -849,7 +849,7 @@ GC drawGC;
 
 	XPutImage(display,rotpix,drawGC,after,0,0,0,0,
 		after->width,after->height);
-	
+
 	XSetFillStyle(display,gc,FillStippled);
 	XSetStipple(display,gc,rotpix);
 	XSetTSOrigin(display,gc,xdest,ydest);
@@ -1124,7 +1124,7 @@ int previousfont,previousline,currentline;
 				}
 				previousline=currentline;
 	       		}
-	       		
+
 			switch (item->type) {
 			case SciPlotLine:
 	       			fprintf(fd,"%.2f %.2f %s %.2f %.2f %s\n",
@@ -1262,7 +1262,7 @@ char fontname[128];
 		"Copyright (c) 1994 Robert W. McMullen",
 		"%%BoundingBox:",xoff,yoff,xmax,ymax,
 		"%%EndComments");
-	
+
 	p=psc;
 	while (p->command) {
 		fprintf(fd,"/%s {%s} bind def\n",p->command,p->prolog);
@@ -1284,7 +1284,7 @@ char fontname[128];
 	ItemPSDrawAll(w,fd,yflip);
 
 	fprintf(fd,"grestore\n");
-	
+
 	if (drawborder) {
 		fprintf(fd,"%.2f %.2f %s %.2f %.2f %s\n",
 			border,border,
@@ -1297,7 +1297,7 @@ char fontname[128];
 	char buf[256];
 	int len,i,j;
 	float x,y;
-	
+
 		x=border+titlefontsize;
 		y=792.0-border-(2.0*titlefontsize);
 		len=strlen(titles);
@@ -1328,7 +1328,7 @@ char fontname[128];
 					psc[PSlineto].command);
 		}
 	}
-	
+
 	fprintf(fd,"showpage\n");
 	fclose(fd);
 	return True;
@@ -1616,7 +1616,7 @@ SciPlotItem	*item;
 #ifdef DEBUG_SCIPLOT_TEXT
 	if (1) {
 	real x1,y1;
-	
+
 		y-=FontnumAscent(w,font);
 		y1=y+FontnumHeight(w,font)-1.0;
 		x1=x+FontnumTextWidth(w,font,text)-1.0;
@@ -1746,7 +1746,7 @@ Boolean found;
 			break;
 		}
 	}
-	
+
 /* If no space is found, increase the size of the index */
 	if (!found) {
 		w->plot.num_plotlist++;
@@ -1771,7 +1771,7 @@ Boolean found;
 		index=w->plot.num_plotlist-1;
 		p=w->plot.plotlist+index;
 	}
-	
+
 	p->LineStyle=p->LineColor=p->PointStyle=p->PointColor=0;
 	p->number=p->allocated=0;
 	p->data=NULL;
@@ -1989,7 +1989,7 @@ ComputeAxis(axis,min,max,log)
 SciPlotAxis *axis;
 real min,max;
 Boolean log;
-{ 
+{
 double range,rnorm,delta,calcmin,calcmax,base,expon,maxabs;
 int nexp,majornum,minornum,majordecimals,decimals,i;
 
@@ -2000,7 +2000,7 @@ int nexp,majornum,minornum,majordecimals,decimals,i;
 		calcmin=pow(10.0,(double)((int)floor(log10(min))));
 		calcmax=pow(10.0,(double)((int)ceil(log10(max))));
 		delta=10.0;
-		
+
 		axis->DrawOrigin=(real)calcmin;
 		axis->DrawMax=(real)calcmax;
 		axis->DrawSize=(real)(log10(calcmax)-log10(calcmin));
@@ -2043,7 +2043,7 @@ int nexp,majornum,minornum,majordecimals,decimals,i;
 			calcmax=((double)((int)((max+.9999999*delta)/delta)))*delta;
 		else
 			calcmax=max;
-		
+
 maxabs = (fabs(calcmax) > fabs(calcmin)) ? fabs(calcmax) : fabs(calcmin);
 expon = log10( maxabs );
 expon = my_nint(expon);
@@ -2051,7 +2051,7 @@ base = 10.0;
 expon = -1.0*expon;
 if( expon > 3.0 )
 	axis->Scalefact = pow( base, expon );
-else if( expon < -3.0 ) 
+else if( expon < -3.0 )
 	{
 	expon += 1.0;
 	axis->Scalefact = pow( base, expon );
@@ -2078,7 +2078,7 @@ axis->Scale_expon = my_nint(expon);
 #endif
 		axis->Precision=decimals;
 	}
-	
+
 #ifdef DEBUG_SCIPLOT
 	printf("Tics: min=%f max=%f size=%f  major inc=%f #major=%d #minor=%d decimals=%d\n",
 		axis->DrawOrigin,axis->DrawMax,axis->DrawSize,
@@ -2115,7 +2115,7 @@ Boolean firstx,firsty;
 	w->plot.Min.x=w->plot.Min.y=w->plot.Max.x=w->plot.Max.y=1.0;
 	firstx=True;
 	firsty=True;
-	
+
 	for (i=0; i<w->plot.num_plotlist; i++) {
 		p=w->plot.plotlist+i;
 		if (p->draw) {
@@ -2193,11 +2193,11 @@ Boolean firstx,firsty;
 		else
 			{
 			if (!w->plot.YAutoScale) {
-				if( w->plot.UserMin.y < 0 ) 
+				if( w->plot.UserMin.y < 0 )
 					w->plot.UserMin.y = 1.e-4 * w->plot.UserMax.y;
 				w->plot.Min.y=w->plot.UserMin.y;
 				w->plot.Max.y=w->plot.UserMax.y;
-printf( "sciplot: just set y range to %lf %lf\n", w->plot.Min.y, w->plot.Max.y ); 
+printf( "sciplot: just set y range to %lf %lf\n", w->plot.Min.y, w->plot.Max.y );
 				}
 			}
 		}
@@ -2206,7 +2206,7 @@ printf( "sciplot: just set y range to %lf %lf\n", w->plot.Min.y, w->plot.Max.y )
 		if (fabs(w->plot.Min.x)>fabs(w->plot.Max.x))
 			w->plot.Max.x=fabs(w->plot.Min.x);
 	}
-	
+
 #ifdef DEBUG_SCIPLOT
 printf("Min: (%f,%f)\tMax: (%f,%f)\n",
 	w->plot.Min.x,w->plot.Min.y,
@@ -2225,7 +2225,7 @@ SciPlotList *p;
 	if (w->plot.ShowLegend) {
 		xmax=0.0;
 		ymax=2.0*(real)w->plot.LegendMargin;
-		
+
 		for (i=0; i<w->plot.num_plotlist; i++) {
 			p=w->plot.plotlist+i;
 			if (p->draw) {
@@ -2237,7 +2237,7 @@ SciPlotList *p;
 				ymax+=FontnumHeight(w,w->plot.axisFont);
 			}
 		}
-		
+
 		w->plot.x.LegendSize=xmax;
 		w->plot.x.LegendPos=(real)w->plot.Margin;
 		w->plot.y.LegendSize=ymax;
@@ -2290,7 +2290,7 @@ real x,y,width,height,axisnumbersize,axisXlabelsize,axisYlabelsize;
 		height-=axisnumbersize;
 		width-=axisnumbersize;
 		w->plot.x.Origin+=axisnumbersize;
-		
+
 		if (w->plot.ShowXLabel) {
 			axisXlabelsize=(real)w->plot.Margin+
 				FontnumHeight(w,w->plot.labelFont);
@@ -2303,7 +2303,7 @@ real x,y,width,height,axisnumbersize,axisXlabelsize,axisYlabelsize;
 			w->plot.x.Origin+=axisYlabelsize;
 		}
 	}
-	
+
 	w->plot.x.Size=width;
 	w->plot.y.Size=height;
 
@@ -2313,7 +2313,7 @@ real x,y,width,height,axisnumbersize,axisXlabelsize,axisYlabelsize;
 	}
 	w->plot.x.Center=w->plot.x.Origin+(width/2.0);
 	w->plot.y.Center=w->plot.y.Origin+(height/2.0);
-	
+
 }
 
 static void
@@ -2421,7 +2421,7 @@ int precision;
 		height-=axisnumbersize;
 		width-=axisnumbersize;
 		w->plot.x.Origin+=axisnumbersize;
-		
+
 		if (w->plot.ShowXLabel) {
 			axisXlabelsize=(real)w->plot.Margin+
 				FontnumHeight(w,w->plot.labelFont);
@@ -2434,40 +2434,40 @@ int precision;
 			w->plot.x.Origin+=axisYlabelsize;
 		}
 	}
-	
+
 	w->plot.x.Size=width;
 	w->plot.y.Size=height;
 
 /* Move legend position to the right of the plot */
 	w->plot.x.LegendPos+=w->plot.x.Origin+w->plot.x.Size;
 	w->plot.y.LegendPos+=w->plot.y.Origin;
-	
+
 /* Adjust parameters for polar plot */
 	if (w->plot.ChartType==XtPOLAR) {
 		if (height<width) w->plot.x.Size=height;
 	}
 	w->plot.x.Center=w->plot.x.Origin+(width/2.0);
 	w->plot.y.Center=w->plot.y.Origin+(height/2.0);
-	
+
 	w->plot.y.AxisPos=w->plot.y.Origin+w->plot.y.Size+
 		(real)w->plot.Margin+
 		FontnumAscent(w,w->plot.axisFont);
 	w->plot.x.AxisPos=w->plot.x.Origin-
 		(real)w->plot.Margin-
 		FontnumDescent(w,w->plot.axisFont);
-	
+
 	w->plot.y.LabelPos=w->plot.y.Origin+w->plot.y.Size+
 		axisnumbersize+(real)w->plot.Margin+
 		(FontnumHeight(w,w->plot.labelFont)/2.0);
 	w->plot.x.LabelPos=w->plot.x.Origin-
 		axisnumbersize-(real)w->plot.Margin-
 		(FontnumHeight(w,w->plot.labelFont)/2.0);
-	
+
 	w->plot.y.TitlePos=w->plot.y.Origin+w->plot.y.Size+
 		axisnumbersize+axisXlabelsize+(real)w->plot.TitleMargin+
 		FontnumAscent(w,w->plot.titleFont);
 	w->plot.x.TitlePos=x;
-	
+
 #ifdef DEBUG_SCIPLOT
 	printf("y.Origin:		%f\n",w->plot.y.Origin);
 	printf("y.Size:			%f\n",w->plot.y.Size);
@@ -2668,7 +2668,7 @@ SciPlotList *p;
 			w->plot.ForegroundColor,XtLINE_SOLID);
 		x+=(real)w->plot.LegendMargin;
 		y+=(real)w->plot.LegendMargin;
-		
+
 		for (i=0; i<w->plot.num_plotlist; i++) {
 			p=w->plot.plotlist+i;
 			if (p->draw) {
@@ -2695,9 +2695,9 @@ int j,precision;
 char numberformat[16],label[512],tlabel[512];
 
 	height=FontnumHeight(w,w->plot.labelFont);
-	
+
 	/* The w->plot.x.DrawOrigin and so on are in user data units.
-	 * the x1, y1, x2, y2 are in pixels 
+	 * the x1, y1, x2, y2 are in pixels
 	 */
 	x1=PlotX(w,w->plot.x.DrawOrigin);
 	y1=PlotY(w,w->plot.y.DrawOrigin);
@@ -2710,7 +2710,7 @@ char numberformat[16],label[512],tlabel[512];
 	precision=w->plot.x.Precision;
 	if (w->plot.XLog) {
 		val=w->plot.x.DrawOrigin;
-		if (precision>0) precision--;	
+		if (precision>0) precision--;
 	}
 	else {
 		val=w->plot.x.DrawOrigin;
@@ -2726,7 +2726,7 @@ char numberformat[16],label[512],tlabel[512];
 		snprintf(label,512,numberformat,val*w->plot.x.Scalefact);
 	TextSet(w,x,w->plot.y.AxisPos,label,w->plot.ForegroundColor,
 		w->plot.axisFont);
-	
+
 	majorval=val;
 	while ((majorval*1.00000001)<w->plot.x.DrawMax) {
 		if (w->plot.XLog) {
@@ -2749,7 +2749,7 @@ char numberformat[16],label[512],tlabel[512];
 				}
 			}
 			val=tic*(real)w->plot.x.MinorNum;
-			if (precision>0) precision--;	
+			if (precision>0) precision--;
 		}
 		else {
 			tic=majorval;
@@ -2803,7 +2803,7 @@ char numberformat[16],label[512],tlabel[512];
 	snprintf(label,512,numberformat,val*w->plot.y.Scalefact);
 	VTextSet(w,w->plot.x.AxisPos,y,label,w->plot.ForegroundColor,
 		w->plot.axisFont);
-	
+
 	majorval=val;
 
 /* majorval*1.0001 is a fudge to get rid of rounding errors that seem to
@@ -2829,7 +2829,7 @@ char numberformat[16],label[512],tlabel[512];
 				}
 			}
 			val=tic*(real)w->plot.y.MinorNum;
-			if (precision>0) precision--;	
+			if (precision>0) precision--;
 		}
 		else {
 			tic=majorval;
@@ -2872,7 +2872,7 @@ char numberformat[16],label[512],tlabel[512];
 			w->plot.y.LabelPos,w->plot.xlabel,
 			w->plot.ForegroundColor,w->plot.labelFont);
 	if (w->plot.ShowYLabel) {
-		if( w->plot.y.Scale_expon == 0. ) 
+		if( w->plot.y.Scale_expon == 0. )
 			snprintf( tlabel, 512, "%s", w->plot.ylabel );
 		else
 			snprintf( tlabel, 512, "%s/10**%d", w->plot.ylabel, -(w->plot.y.Scale_expon) );
@@ -2895,7 +2895,7 @@ SciPlotList *p;
 		p=w->plot.plotlist+i;
 		if (p->draw) {
 		real x1,y1,x2,y2;
-		
+
 			jstart=1;
 			if (((w->plot.XLog&&(p->data[0].x<=0.0))||
 			      (w->plot.YLog&&(p->data[0].y<=0.0)))) {
@@ -2930,7 +2930,7 @@ SciPlotList *p;
 		p=w->plot.plotlist+i;
 		if (p->draw) {
 		real x2,y2;
-	
+
 			for (j=0; j<p->number; j++) {
 				if (!((w->plot.XLog&&(p->data[j].x<=0.0))||
 				      (w->plot.YLog&&(p->data[j].y<=0.0)))) {
@@ -3009,7 +3009,7 @@ SciPlotList *p;
 		p=w->plot.plotlist+i;
 		if (p->draw) {
 		real x1,y1,x2,y2;
-		
+
 			PlotRT(w,p->data[0].x,p->data[0].y,&x1,&y1);
 			DrawMarker(w,x1,y1,(real)3.0,
 				p->PointColor,p->PointStyle);

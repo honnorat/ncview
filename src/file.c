@@ -3,7 +3,7 @@
  * Copyright (C) 1993 through 2010 David W. Pierce
  *
  * This program  is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 3 as 
+ * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@
  *	The file interface to ncview.
  *
  *	All the routines in this file must be provided for whatever
- *	format data file you want to have.  Ideally, all the information 
+ *	format data file you want to have.  Ideally, all the information
  *    	about the data file formats should be encapsulated here.
  *
  *****************************************************************************/
@@ -85,7 +85,7 @@ fi_initialize( char *name, int nfiles )
 	Stringlist *var_list;
 
 	if( file_type == FILE_TYPE_NETCDF ) {
-		if( options.debug ) 
+		if( options.debug )
 			fprintf( stderr, "Initializing file %s\n", name );
 		id = netcdf_fi_initialize( name );
 		}
@@ -96,22 +96,22 @@ fi_initialize( char *name, int nfiles )
 		exit( -1 );
 		}
 
-	if( options.debug ) 
+	if( options.debug )
 		fprintf( stderr, "Getting list of variables for file %s\n", name );
 	var_list = fi_list_vars( id );
 	add_vars_to_list( var_list, id, name, nfiles );
-	
-	if( options.debug ) 
+
+	if( options.debug )
 		fprintf( stderr, "Done initializing file %s\n", name );
 
 	return( id );
-}	
+}
 
 /************************************************************************************/
 /* Return a list of the names of all the displayable variables in
- * the file.  Whether or not a variable is "displayable" is determined 
+ * the file.  Whether or not a variable is "displayable" is determined
  * by the needs of the data, but in any event any displayable variable
- * must have at least 1 scannable dimension and be accessable by these 
+ * must have at least 1 scannable dimension and be accessable by these
  * routines. If the user wouldn't ever be interested in contouring some
  * variable, such as a dimension variable, it shouldn't appear on this list.
  */
@@ -207,7 +207,7 @@ fi_dim_units( int fileid, char *dim_name )
 }
 
 /************************************************************************************/
-/* Given a file id and the name of a variable, return the number of 
+/* Given a file id and the name of a variable, return the number of
  * dimensions which that variable has.  This reads it directly from
  * the file, not using information in the 'variables' structure.
  */
@@ -278,7 +278,7 @@ fi_dim_id_to_name( int fileid, char *var_name, int dim_id )
 /************************************************************************************
  * Given a dimension's name and the name of the variable who owns it,
  * return the index where that dimension appears in the size array
- * returned by 'fi_var_size'.  Return -1 if the dimension does not 
+ * returned by 'fi_var_size'.  Return -1 if the dimension does not
  * appear in the variable.
  */
 	int
@@ -297,9 +297,9 @@ fi_dim_name_to_id( int fileid, char *var_name, char *dim_name )
  * indicated file.  The data is assumed to be multi-dimensional
  * (it has to be at least 2 dimensions, else it isn't displayable!)
  * and starts at the position given by start_pos[0...N-1], with
- * counts of count[0...N-1].  The pointer MUST ALREADY point to 
+ * counts of count[0...N-1].  The pointer MUST ALREADY point to
  * storage large enough to hold the data!  Note that this routine
- * translates the 'start' place from a virtual location to an 
+ * translates the 'start' place from a virtual location to an
  * actual location for you, so you don't have to worry about that.
  * I.e., if you have a variable spread out over many files, you just
  * index it as if it were in one file and let the translation routine
@@ -317,7 +317,7 @@ fi_get_data( NCVar *var, size_t *virt_start_pos, size_t *count, void *data )
 		fi_get_data_iterate( var, virt_start_pos, count, data );
 		return;
 		}
-		
+
 	act_start_pos = (size_t *)malloc(var->n_dims * sizeof(size_t));
 	if( act_start_pos == NULL ) {
 		fprintf( stderr, "error allocating space for act_start_pos\n" );
@@ -327,7 +327,7 @@ fi_get_data( NCVar *var, size_t *virt_start_pos, size_t *count, void *data )
 	virt_to_actual_place( var, virt_start_pos, act_start_pos, &file );
 
 	if( file_type == FILE_TYPE_NETCDF )
-		netcdf_fi_get_data( file->id, var->name, act_start_pos, 
+		netcdf_fi_get_data( file->id, var->name, act_start_pos,
 			  count, data, (NetCDFOptions *)var->first_file->aux_data );
 	else
 		{
@@ -369,8 +369,8 @@ fi_get_data_iterate( NCVar *var, size_t *virt_start_pos, size_t *count, void *da
 		start2[0] = it;
 		virt_to_actual_place( var, start2, act_start_pos, &file );
 		if( file_type == FILE_TYPE_NETCDF )
-			netcdf_fi_get_data( file->id, var->name, act_start_pos, 
-				  count2, ((float *)data)+it*prod_lower_dims, 
+			netcdf_fi_get_data( file->id, var->name, act_start_pos,
+				  count2, ((float *)data)+it*prod_lower_dims,
 				  	(NetCDFOptions *)var->first_file->aux_data );
 		else
 			{
@@ -384,7 +384,7 @@ fi_get_data_iterate( NCVar *var, size_t *virt_start_pos, size_t *count, void *da
 }
 
 /************************************************************************************
- * Close the relevant file 
+ * Close the relevant file
  */
 	void
 fi_close( int fileid )
@@ -429,19 +429,19 @@ void fi_dim_value_convert( double *dimval, FDBlist *file, NCVar *var, NCDim *d )
 	    (var->first_file->ut_unit_ptr  == NULL) ||
 	    (file->ut_unit_ptr 		   == NULL) ||
 	    (! d->timelike )                        ||
-	    (strcmp(file->recdim_units,var->first_file->recdim_units) == 0) ) 
+	    (strcmp(file->recdim_units,var->first_file->recdim_units) == 0) )
 	    	return;
 
-	/* Convert the dim value to a date using the units given 
+	/* Convert the dim value to a date using the units given
 	 * in the file that this dim value came from
 	 */
-	err = utCalendar2_cal( *dimval, file->recdim_units, 
+	err = utCalendar2_cal( *dimval, file->recdim_units,
 		&year0, &month0, &day0, &hour0, &min0, &sec0, d->calendar );
 	if( err == 0 ) {
-		err = utInvCalendar2_cal( year0, month0, day0, hour0, min0, sec0, 
+		err = utInvCalendar2_cal( year0, month0, day0, hour0, min0, sec0,
 			var->first_file->recdim_units, &converted_dimval,
 			d->calendar );
-		if( err == 0 ) 
+		if( err == 0 )
 			*dimval = converted_dimval;
 		}
 #endif
@@ -451,12 +451,12 @@ void fi_dim_value_convert( double *dimval, FDBlist *file, NCVar *var, NCDim *d )
  * Return the value of a dimension at a specific point.  Returns the type
  * of the dimension value, which is either NC_DOUBLE or NC_CHAR.  Make sure
  * to allocate space for at least a 1024 character string in the return_value!
- * It will never be larger than that.  Takes a virtual place, and converts 
+ * It will never be larger than that.  Takes a virtual place, and converts
  * it to an actual place before determining the value.
  */
 	nc_type
-fi_dim_value( NCVar *var, int dim_id, size_t virt_place, double *return_val_double, 
-	char *return_val_char, int *return_has_bounds, double *return_bounds_min, 
+fi_dim_value( NCVar *var, int dim_id, size_t virt_place, double *return_val_double,
+	char *return_val_char, int *return_has_bounds, double *return_bounds_min,
 	double *return_bounds_max, size_t *complete_ndim_virt_place )
 {
 	size_t	actual_place, *virt_start_pos, *act_start_pos;
@@ -472,10 +472,10 @@ if(1==0){
 printf( "Data cache vals for var %s:\n", var->name );
 for( i=0; i<var->n_dims; i++ ) {
 	printf( "Dim %d (%s): ", i, var->dim[i]->name );
-	if( var->dim_map_info[i] == NULL ) 
+	if( var->dim_map_info[i] == NULL )
 		printf( "NULL\n" );
 	else
-		printf( "(%s) %f %f %f\n", 
+		printf( "(%s) %f %f %f\n",
 			var->dim_map_info[i]->coord_var_name,
 			var->dim_map_info[i]->data_cache[0], var->dim_map_info[i]->data_cache[10],
 			var->dim_map_info[i]->data_cache[100] );
@@ -520,7 +520,7 @@ for( i=0; i<var->n_dims; i++ ) {
 	d = (*(var->dim+dim_id));
 	dim_name  = d->name;
 	if( file_type == FILE_TYPE_NETCDF )
-		ret_val = netcdf_dim_value( file->id, dim_name, actual_place, 
+		ret_val = netcdf_dim_value( file->id, dim_name, actual_place,
 				return_val_double, return_val_char, virt_place,
 				return_has_bounds, return_bounds_min, return_bounds_max );
 	else
@@ -563,7 +563,7 @@ fi_has_dim_values( int fileid, char *dim_name )
 }
 
 /*************************************************************************************
- * File utility routines; things below this line shouldn't have to be changed 
+ * File utility routines; things below this line shouldn't have to be changed
  * for different data file formats.
  */
 
@@ -625,7 +625,7 @@ fi_fill_aux_data( int id, char *var_name, FDBlist *fdb )
 fi_fill_value( NCVar *var, float *fill_value )
 {
 	if( file_type == FILE_TYPE_NETCDF )
-		netcdf_fill_value( var->first_file->id, var->name, 
+		netcdf_fill_value( var->first_file->id, var->name,
 				fill_value, (NetCDFOptions *)var->first_file->aux_data );
 	else
 		{
@@ -635,7 +635,7 @@ fi_fill_value( NCVar *var, float *fill_value )
 		}
 }
 
-	int 	
+	int
 fi_recdim_id( int fileid )
 {
 	return( netcdf_fi_recdim_id( fileid ));
