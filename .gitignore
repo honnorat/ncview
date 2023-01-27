@@ -1,5 +1,14 @@
 # Build atifacts
 *.o
+
+/Makefile
+/config.log
+/config.h
+/config.status
+/stamp-h1
+src/geteuid
+
+src/Makefile
 src/ncview
 src/.deps
 autom4te.cache/
