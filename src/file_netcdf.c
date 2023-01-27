@@ -1531,6 +1531,18 @@ int netcdf_min_max_option_set( NCVar *var, float *ret_min, float *ret_max )
 				t_min = netcdf->valid_range[1];
 				t_max = netcdf->valid_range[0];
 				}
+
+			/* Implement the "add_offset" and "scale_factor" attributes */
+			if( netcdf->add_offset_set && netcdf->scale_factor_set ) {
+			  t_min = t_min * netcdf->scale_factor + netcdf->add_offset;
+			  t_max = t_max * netcdf->scale_factor + netcdf->add_offset;
+ 			} else if( netcdf->add_offset_set ) {
+			  t_min += netcdf->add_offset;
+			  t_max += netcdf->add_offset;
+ 			} else if( netcdf->scale_factor_set ) {
+			  t_min *= netcdf->scale_factor;
+			  t_max *= netcdf->scale_factor;
+ 			}
 			min = (t_min < min) ? t_min : min;
 			max = (t_max > max) ? t_max : max;
 			}
@@ -1561,6 +1573,15 @@ int netcdf_min_option_set( NCVar *var, float *ret_min )
 		if( netcdf->valid_min_set ) {
 			min_set = TRUE;
 			t_min   = netcdf->valid_min;
+
+			/* Implement the "add_offset" and "scale_factor" attributes */
+			if( netcdf->add_offset_set && netcdf->scale_factor_set ) {
+			  t_min = t_min * netcdf->scale_factor + netcdf->add_offset;
+ 			} else if( netcdf->add_offset_set ) {
+			  t_min += netcdf->add_offset;
+ 			} else if( netcdf->scale_factor_set ) {
+			  t_min *= netcdf->scale_factor;
+ 			}
 			min     = (t_min < min) ? t_min : min;
 			}
 		f = f->next;
@@ -1588,6 +1609,14 @@ int netcdf_max_option_set( NCVar *var, float *ret_max )
 		if( netcdf->valid_max_set ) {
 			max_set = TRUE;
 			t_max   = netcdf->valid_max;
+			/* Implement the "add_offset" and "scale_factor" attributes */
+			if( netcdf->add_offset_set && netcdf->scale_factor_set ) {
+			  t_max = t_max * netcdf->scale_factor + netcdf->add_offset;
+ 			} else if( netcdf->add_offset_set ) {
+			  t_max += netcdf->add_offset;
+ 			} else if( netcdf->scale_factor_set ) {
+			  t_max *= netcdf->scale_factor;
+ 			}
 			max     = (t_max > max) ? t_max : max;
 			}
 		f = f->next;
