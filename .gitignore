@@ -1,3 +1,5 @@
 # Build atifacts
 *.o
 src/ncview
+src/.deps
+autom4te.cache/

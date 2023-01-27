@@ -1376,6 +1376,10 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 	short	*short_att, short_1;
 	double	*double_att, double_1;
 	long	*long_att, long_1;
+	signed char	*byte_att, byte_1;
+	unsigned char	*ubyte_att, ubyte_1;
+	unsigned int	*uint_att, uint_1;
+	unsigned short	*ushort_att, ushort_1;
 
 	if( netcdf_att_id( id, varid, att_name ) >= 0 ) {
 		err = nc_inq_att( id, varid, att_name, &type, &len );
@@ -1393,6 +1397,29 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 					break;
 
 				case NC_BYTE:
+					byte_att = (signed char *)malloc( len*sizeof(signed char) );
+					err = nc_get_att_schar( id, varid, att_name, byte_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						byte_1 = *(byte_att+i);
+						*((float *)value + i) = (float)byte_1;
+						}
+					free(byte_att);
+					break;
+
+				case NC_UBYTE:
+					ubyte_att = (unsigned char *)malloc( len*sizeof(unsigned char) );
+					err = nc_get_att_ubyte( id, varid, att_name, ubyte_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						ubyte_1 = *(ubyte_att+i);
+						*((float *)value + i) = (float)ubyte_1;
+						}
+					free(byte_att);
+					break;
+
 				case NC_SHORT:
 					short_att = (short *)malloc( len*sizeof(short) );
 					err = nc_get_att_short( id, varid, att_name, short_att );
@@ -1403,6 +1430,18 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 						*((float *)value + i) = (float)short_1;
 						}
 					free(short_att);
+					break;
+
+				case NC_USHORT:
+					ushort_att = (unsigned short *)malloc( len*sizeof(unsigned short) );
+					err = nc_get_att_ushort( id, varid, att_name, ushort_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						ushort_1 = *(ushort_att+i);
+						*((float *)value + i) = (float)ushort_1;
+						}
+					free(ushort_att);
 					break;
 
 				case NC_DOUBLE:
@@ -1417,7 +1456,7 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 					free(double_att);
 					break;
 
-				case NC_LONG:
+				case NC_INT:
 					long_att = (long *)malloc( len*sizeof(long));
 					err = nc_get_att_long( id, varid, att_name, long_att );
 					if( err != NC_NOERR )
@@ -1428,6 +1467,19 @@ int netcdf_get_att_util( int id, int varid, char *var_name, char *att_name, int 
 						}
 					free(long_att);
 					break;
+
+				case NC_UINT:
+					uint_att = (unsigned int *)malloc( len*sizeof(unsigned int));
+					err = nc_get_att_uint( id, varid, att_name, uint_att );
+					if( err != NC_NOERR )
+						return( FALSE );
+					for( i=0; i<len; i++ ) {
+						uint_1 = *(uint_att+i);
+						*((float *)value + i) = (float)uint_1;
+						}
+					free(uint_att);
+					break;
+
 				default:	
 					fprintf( stderr, "can't handle conversions from %s to FLOAT yet\n", nc_type_to_string( type ) );
 				}
@@ -1721,9 +1773,13 @@ char *nc_type_to_string( nc_type type )
 		
 		case NC_BYTE:	return( "BYTE" );
 
+		case NC_UBYTE:	return( "UBYTE" );
+
 		case NC_CHAR:	return( "CHAR" );
 
 		case NC_SHORT:	return( "SHORT" );
+
+		case NC_USHORT:	return( "USHORT" );
 
 		case NC_LONG:	return( "LONG" );
 
